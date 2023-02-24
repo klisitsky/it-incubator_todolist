@@ -1,30 +1,66 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './App.css';
 import {Todolist} from "./Todolist";
+import {v1} from "uuid";
+
+
+export type BtnNameType = 'all' | 'active' | 'completed'
+
+
 
 function App() {
 
-  const shapka1 = 'What is to learn-1'
-  const shapka11 = 'What is to learn-1111111111111111111111'
-  const shapka2 = 'What is to learn-1'
-  const shapka22 = 'What is to learn-2222222222222222222222'
+  let [tasks, setTasks] = useState([
+    { id: v1(), title: "HTML&CSS", isDone: true },
+    { id: v1(), title: "JS", isDone: true },
+    { id: v1(), title: "ReactJS", isDone: false },
+    { id: v1(), title: "NodeJS", isDone: true }
+  ])
+  let [title, setTitle] = useState<string>('')
+  let [error, setError] = useState<string|null>(null)
 
 
-  const tasks1 = [
-    { id: 1, title: "HTML&CSS", isDone: true },
-    { id: 2, title: "JS", isDone: true },
-    { id: 3, title: "ReactJS", isDone: false }
-  ]
-  const tasks2 = [
-    { id: 1, title: "Hello world", isDone: true },
-    { id: 2, title: "I am Happy", isDone: false },
-    { id: 3, title: "Yo", isDone: false }
-  ]
+  const addTask = (title:string) => {
+    title = title.trim()
+    if(title) {
+      let newTask = { id: v1(), title: title, isDone: false }
+      setTasks([...tasks, newTask])
+      // setError(null)
+    } else {
+      setError('Заполни поле епта')
+      // setTimeout(() => {setError(null)}, 2000)
+    }
+    setTitle('')
+  }
+
+  const removeTask = (id:string) => {
+    setTasks(tasks.filter(el => el.id !== id))
+  }
+
+  const onChangeCheckBox = (id: string, isDone:boolean) => {
+    const task = tasks.find(t => t.id === id)
+    if (task) {
+      task.isDone = isDone;
+      setTasks([...tasks])
+    }
+
+  }
+
+
 
   return (
       <div className="App">
-        <Todolist newShapka={shapka1} tasks={tasks1}/>
-        <Todolist shapka={shapka22} tasks={tasks2}/>
+        <Todolist
+          newShapka={'What is to learn-1'}
+          tasks={tasks}
+          removeTask={removeTask}
+          addTask={addTask}
+          title={title}
+          setTitle={setTitle}
+          error={error}
+          setError={setError}
+          callbackOnChangeChkBox={onChangeCheckBox}
+        />
       </div>
   )
 

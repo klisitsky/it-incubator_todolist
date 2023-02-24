@@ -1,0 +1,16 @@
+.errorInput {
+  border: 3px solid red;
+}
+
+.errorMessage {
+  color: red
+}
+
+.activeFilter {
+  background-color: aquamarine;
+  border: 1px solid darkslategray;
+}
+
+.finishedTask {
+  opacity: 0.5;
+}
