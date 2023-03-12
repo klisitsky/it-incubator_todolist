@@ -35,16 +35,21 @@ export const Todolist = (props: TodolistPropsType) => {
   const filteringTasksBtnCompletedHandler = () => props.changeFilter(props.todolistId, 'completed')
 
   const renderedTasks = props.tasks.map(task => {
-    const onClickHandler = () => {props.removeTask(props.todolistId, task.id)}
 
+    const onClickHandler = () => {props.removeTask(props.todolistId, task.id)}
     const EditableSpanCallbackForTask = (newTitle: string) => {
       props.updateTask(props.todolistId, task.id, newTitle)
+    }
+    const onChangeChkBoxHandler = () => {
+      props.callbackOnChangeChkBox(props.todolistId, task.id, !task.isDone)
     }
 
     return (
       <li key={task.id} className={task.isDone ? s.finishedTask : ''}>
         <button onClick={onClickHandler}>X</button>
-        <input type="checkbox" onChange={() => props.callbackOnChangeChkBox(props.todolistId, task.id, !task.isDone)} checked={task.isDone} />
+        <input type="checkbox"
+               onChange={onChangeChkBoxHandler}
+               checked={task.isDone} />
         <EditableSpan oldTitle={task.title} callback={EditableSpanCallbackForTask} />
       </li>
     )
