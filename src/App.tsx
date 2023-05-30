@@ -1,20 +1,29 @@
-import React, {useState} from 'react';
+import React, {useReducer} from 'react';
 import './App.css';
 import {TaskType, Todolist} from "./Todolist";
 import {v1} from "uuid";
 import {AddItemForm} from "./components/AddItemForm/AddItemForm";
+import ButtonAppBar from "./components/AppBar/AppBar";
+import Container from "@mui/material/Container";
+import Grid from '@mui/material/Grid';
+import {addTaskAC, changeTaskStatusAC, removeTaskAC, tasksReducer, updateTaskAC} from "./Reducers/tasksReducer";
+import {
+  addTodolistAC, changeTodolistFilterAC, changeTodolistTitleAC, deleteTodolistAC, todolistsReducer
+} from "./Reducers/todolistsReducer";
+
 
 
 export type FilterType = 'all' | 'active' | 'completed'
 
 
-type TodolistType = {
+export type TodolistType = {
   id: string
   title: string
   filter: FilterType
 }
 
-type AllTasksType = {
+
+export type AllTasksType = {
   [todolistId: string]: Array<TaskType>
 }
 
@@ -23,22 +32,32 @@ function App() {
   const todolistId1 = v1();
   const todolistId2 = v1();
 
-  const [todolists, setTodolists] = useState<Array<TodolistType>>([
+  const [todolists, todolistsDispatch] = useReducer(todolistsReducer,[
     {id: todolistId1, title: 'What to learn', filter: 'all'},
     {id: todolistId2, title: 'What to buy', filter: 'all'},
   ])
 
   const changeFilter = (todolistId: string, newFilter:FilterType) => {
-    setTodolists(todolists.map(todo => todo.id === todolistId ? {...todo, filter:newFilter}: todo))
-  }
-  const changeTodolistTitle = (todolistId:string, newTodolistTitle: string) => {
-    setTodolists(todolists.map(todo => todo.id === todolistId ? {...todo, title:newTodolistTitle}: todo))
-  }
-  const deleteTodolist = (todolistId: string) => {
-    setTodolists(todolists.filter(todo => todo.id !== todolistId))
+    todolistsDispatch(changeTodolistFilterAC(todolistId, newFilter))
   }
 
-  const [tasks, setTasks] = useState<AllTasksType>({
+  const changeTodolistTitle = (todolistId:string, changedTodolistTitle: string) => {
+    todolistsDispatch(changeTodolistTitleAC(todolistId, changedTodolistTitle))
+  }
+
+  const deleteTodolist = (todolistId: string) => {
+    todolistsDispatch(deleteTodolistAC(todolistId))
+  }
+
+  const addItemFormHandler = (newTitle:string) => {
+   const newTotolistId = v1();
+   const newTodolist: TodolistType = {id: newTotolistId, title: newTitle, filter: 'all'}
+    todolistsDispatch(addTodolistAC(newTodolist))
+    tasksDispatch(addTaskAC(newTodolist.id))
+  }
+
+
+  let [tasks, tasksDispatch] = useReducer(tasksReducer, {
     [todolistId1]:[
       { id: v1(), title: "HTML&CSS", isDone: true },
       { id: v1(), title: "JS", isDone: true },
@@ -54,70 +73,63 @@ function App() {
   })
 
   const addTask = (todolistId: string, taskTitle:string) => {
-      const newTask = { id: v1(), title: taskTitle, isDone: false }
-      setTasks({...tasks, [todolistId]:[newTask, ...tasks[todolistId]]})
+    tasksDispatch(addTaskAC(todolistId, taskTitle))
    }
+
   const updateTask = (todolistId: string, taskId: string, taskTitle:string) => {
-    setTasks({...tasks, [todolistId]:tasks[todolistId].map(task => task.id === taskId
-        ? {...task, title:taskTitle}
-        : task)}
-    )
+    tasksDispatch(updateTaskAC(todolistId, taskId, taskTitle))
   }
 
   const removeTask = (todolistId: string, taskId:string) => {
-    setTasks({...tasks, [todolistId]:tasks[todolistId].filter(task => task.id !== taskId)})
-  }
-  const onChangeCheckBox = (todolistId: string, taskId: string, newIsDone:boolean) => {
-    setTasks({...tasks, [todolistId]:tasks[todolistId].map(task => {
-        return task.id === taskId ? {...task, isDone: newIsDone} : task
-    }
-    )})
+    tasksDispatch(removeTaskAC(todolistId, taskId))
   }
 
-  const callbackAddItemFormHandler = (newTitle:string) => {
-    const newTotolistId = v1();
-    const newTodolist: TodolistType = {id: newTotolistId, title: newTitle, filter: 'all'}
-    setTodolists([...todolists, newTodolist])
-    setTasks({...tasks, [newTotolistId]:[]})
+  const changeTaskStatus = (todolistId: string, taskId: string, newIsDone:boolean) => {
+    tasksDispatch(changeTaskStatusAC(todolistId, taskId, newIsDone))
   }
 
 
-  return (
-      <div className="App">
-        <AddItemForm callback={callbackAddItemFormHandler} placeholder={'Новый список задач'}/>
-        {todolists.map(todo => {
+  return (<>
+      <ButtonAppBar/>
+      <Container maxWidth={'xl'}>
+        <div className="App">
+          <Grid container style={{margin: "20px"}}>
+            <AddItemForm addItem={addItemFormHandler} placeholder={'Новый список задач'}/>
+          </Grid>
+          <Grid container spacing={6}>
+            {todolists.map(todo => {
 
-          let filteredTasks = tasks[todo.id]
+              let filteredTasks = tasks[todo.id]
 
-          switch (todo.filter) {
-            case 'active':
-              filteredTasks = tasks[todo.id].filter(task => !task.isDone)
-              break;
-            case 'completed':
-              filteredTasks = tasks[todo.id].filter(task => task.isDone)
-              break;
-          }
+              switch (todo.filter) {
+                case 'active':
+                  filteredTasks = tasks[todo.id].filter(task => !task.isDone)
+                  break;
+                case 'completed':
+                  filteredTasks = tasks[todo.id].filter(task => task.isDone)
+                  break;
+              }
 
-          return <Todolist
-            key={todo.id}
-            todolistId={todo.id}
-            newShapka={todo.title}
-            tasks={filteredTasks}
-            removeTask={removeTask}
-            addTask={addTask}
-            callbackOnChangeChkBox={onChangeCheckBox}
-            filter={todo.filter}
-            changeFilter={changeFilter}
-            deleteTodolist={deleteTodolist}
-            updateTask={updateTask}
-            changeTodolistTitle={changeTodolistTitle}
-          />
-        })}
-
-      </div>
+              return <Grid item xs={4}><Todolist
+                key={todo.id}
+                todolistId={todo.id}
+                newShapka={todo.title}
+                tasks={filteredTasks}
+                removeTask={removeTask}
+                addTask={addTask}
+                callbackOnChangeChkBox={changeTaskStatus}
+                filter={todo.filter}
+                changeFilter={changeFilter}
+                deleteTodolist={deleteTodolist}
+                updateTask={updateTask}
+                changeTodolistTitle={changeTodolistTitle}
+              /></Grid>
+            })}
+          </Grid>
+        </div>
+      </Container>
+    </>
   )
-
-
 }
 
 export default App;

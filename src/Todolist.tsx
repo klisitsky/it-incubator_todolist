@@ -3,6 +3,14 @@ import {FilterType} from "./App";
 import s from './Todolist.module.css'
 import {AddItemForm} from "./components/AddItemForm/AddItemForm";
 import {EditableSpan} from "./components/EditableSpan/EditableSpan";
+import DeleteIcon from '@mui/icons-material/Delete';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import IconButton from '@mui/material/IconButton';
+import Checkbox from '@mui/material/Checkbox';
+import Paper from "@mui/material/Paper";
+import ButtonGroup from "@mui/material/ButtonGroup";
+import Button from "@mui/material/Button";
 
 type TodolistPropsType = {
   newShapka: string
@@ -34,7 +42,7 @@ export const Todolist = (props: TodolistPropsType) => {
   const filteringTasksBtnActiveHandler = () => props.changeFilter(props.todolistId, 'active')
   const filteringTasksBtnCompletedHandler = () => props.changeFilter(props.todolistId, 'completed')
 
-  const renderedTasks = props.tasks.map(task => {
+  const renderedTasks2 = props.tasks.map(task => {
 
     const onClickHandler = () => {props.removeTask(props.todolistId, task.id)}
     const EditableSpanCallbackForTask = (newTitle: string) => {
@@ -45,13 +53,18 @@ export const Todolist = (props: TodolistPropsType) => {
     }
 
     return (
-      <li key={task.id} className={task.isDone ? s.finishedTask : ''}>
-        <button onClick={onClickHandler}>X</button>
-        <input type="checkbox"
-               onChange={onChangeChkBoxHandler}
-               checked={task.isDone} />
+      <ListItem key={task.id}
+                className={s.task + (task.isDone ? ' '+ s.finishedTask : '')}
+                secondaryAction={
+                  <IconButton>
+                    <DeleteIcon onClick={onClickHandler}>X</DeleteIcon>
+                  </IconButton>
+                }>
+        <Checkbox onChange={onChangeChkBoxHandler}
+                  defaultChecked={task.isDone}/>
         <EditableSpan oldTitle={task.title} callback={EditableSpanCallbackForTask} />
-      </li>
+
+      </ListItem>
     )
   })
 
@@ -62,23 +75,31 @@ export const Todolist = (props: TodolistPropsType) => {
   const editableSpanCallbackForTodoTitle = (newTitle: string) => {
     props.changeTodolistTitle(props.todolistId, newTitle)
   }
+
   return (
+
+    <div className={s.cardContainer}>
+      <Paper elevation={3} style={{padding: '20px'}}>
+      <h2>
+        <EditableSpan oldTitle={props.newShapka} callback={editableSpanCallbackForTodoTitle}/>
+        <IconButton>
+          <DeleteIcon onClick={deleteTodolistHandler} style={{cursor: 'pointer'}} fontSize={'large'}></DeleteIcon>
+        </IconButton>
+      </h2>
+      <AddItemForm addItem={callbackAddItemFormHandler} placeholder={'Новая задача'}/>
+      <List disablePadding>
+        {renderedTasks2}
+      </List>
       <div>
-          <h3>
-            <EditableSpan oldTitle={props.newShapka} callback={editableSpanCallbackForTodoTitle}/>
-            <button onClick={deleteTodolistHandler}>Del todolist</button></h3>
-        <AddItemForm callback={callbackAddItemFormHandler} placeholder={'Новая задача'}/>
-          <ul>
-            {renderedTasks}
-          </ul>
-          <div>
-            <button className={props.filter === 'all' ? s.activeFilter : ''}
-                    onClick={filteringTasksBtnAllHandler}>All</button>
-            <button className={props.filter === 'active' ? s.activeFilter : ''}
-                    onClick={filteringTasksBtnActiveHandler}>Active</button>
-            <button className={props.filter === 'completed' ? s.activeFilter : ''}
-                    onClick={filteringTasksBtnCompletedHandler}>Completed</button>
-          </div>
-        </div>
+        <ButtonGroup>
+          <Button variant={props.filter === 'all' ? 'contained' : 'outlined'}
+                  onClick={filteringTasksBtnAllHandler}>All</Button>
+          <Button variant={props.filter === 'active' ? 'contained' : 'outlined'}
+                  onClick={filteringTasksBtnActiveHandler}>Active</Button>
+          <Button variant={props.filter === 'completed' ? 'contained' : 'outlined'}
+                  onClick={filteringTasksBtnCompletedHandler}>Completed</Button>
+        </ButtonGroup>
+      </div>
+    </Paper></div>
   );
 }

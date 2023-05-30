@@ -1,9 +1,11 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import s from './AddItemForm.module.css'
-
+import AddBoxIcon from '@mui/icons-material/AddBox';
+import TextField from '@mui/material/TextField';
+import IconButton from "@mui/material/IconButton";
 
 type AddItemFormPropsType = {
-  callback: (title: string) => void
+  addItem: (title: string) => void
   placeholder?: string
 }
 
@@ -21,7 +23,7 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = (props) => {
   const onClickBtnAddHandler = () => {
     title = title.trim()
     if (title) {
-      props.callback(title)
+      props.addItem(title)
       setError(null)
     } else {
       setError('Заполните поле')
@@ -36,15 +38,20 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = (props) => {
   }
 
   return (
-    <div>
-    <input className={error ? s.errorInput :''}
-           value={title}
-           onChange={onChangeInputHandler}
-           onKeyUp={onKeyUpInputHandler}
-           placeholder={props.placeholder}
+    <div className={s.taskItemContainer}>
+    <TextField value={title}
+               onChange={onChangeInputHandler}
+               onKeyUp={onKeyUpInputHandler}
+               label={props.placeholder}
+               error={!!error}
+               helperText={error}
+               size={'medium'}
+               style={{minWidth: '300px'}}
+
     />
-    <button onClick={onClickBtnAddHandler}>+</button>
-    {error && (<div className={s.errorMessage}>{error}</div>)}
+    <IconButton>
+        <AddBoxIcon onClick={onClickBtnAddHandler} style={{cursor: 'pointer'}} fontSize={'large'} color={'primary'}></AddBoxIcon>
+    </IconButton>
   </div>
   );
 };
