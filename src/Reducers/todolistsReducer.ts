@@ -1,4 +1,5 @@
 import {FilterType, TodolistType} from "../App";
+import {v1} from "uuid";
 
 
 type GlobalActionType = ChangeTodolistFilterActionType |
@@ -24,14 +25,19 @@ export const todolistsReducer = (state: Array<TodolistType>, action: GlobalActio
       return state.filter(tl => tl.id !== action.payLoad.todolistId)
 
     case "ADD-TODOLIST":
-      return [...state, action.payLoad.newTodolist]
+      const newTodolist: TodolistType = {
+        id: action.payLoad.todolistId,
+        title: action.payLoad.newTitle,
+        filter: 'all'
+      }
+      return [...state, newTodolist]
 
     default:
       return state
   }
 }
 
-type ChangeTodolistFilterActionType = ReturnType<typeof changeTodolistFilterAC>
+export type ChangeTodolistFilterActionType = ReturnType<typeof changeTodolistFilterAC>
 export const changeTodolistFilterAC = (todolistId: string, newFilter:FilterType) => ({
   type: 'CHANGE-TODOLIST-FILTER',
   payLoad: {
@@ -40,7 +46,7 @@ export const changeTodolistFilterAC = (todolistId: string, newFilter:FilterType)
   }
 } as const)
 
-type ChangeTodolistTitleActionType = ReturnType<typeof changeTodolistTitleAC>
+export type ChangeTodolistTitleActionType = ReturnType<typeof changeTodolistTitleAC>
 export const changeTodolistTitleAC = (todolistId:string, changedTodolistTitle: string) => ({
   type: 'CHANGE-TODOLIST-TITLE',
   payLoad: {
@@ -49,7 +55,7 @@ export const changeTodolistTitleAC = (todolistId:string, changedTodolistTitle: s
   }
 } as const)
 
-type DeleteTodolistActionType = ReturnType<typeof deleteTodolistAC>
+export type DeleteTodolistActionType = ReturnType<typeof deleteTodolistAC>
 export const deleteTodolistAC = (todolistId:string) => ({
   type: 'DELETE-TODOLIST',
   payLoad: {
@@ -57,10 +63,11 @@ export const deleteTodolistAC = (todolistId:string) => ({
   }
 } as const)
 
-type AddTodolistActionType = ReturnType<typeof addTodolistAC>
-export const addTodolistAC = (newTodolist: TodolistType) => ({
+export type AddTodolistActionType = ReturnType<typeof addTodolistAC>
+export const addTodolistAC = (newTitle: string) => ({
   type: 'ADD-TODOLIST',
   payLoad: {
-    newTodolist
+    newTitle,
+    todolistId: v1()
   }
 } as const)

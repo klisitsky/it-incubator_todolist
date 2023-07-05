@@ -47,13 +47,12 @@ function App() {
 
   const deleteTodolist = (todolistId: string) => {
     todolistsDispatch(deleteTodolistAC(todolistId))
+    tasksDispatch(deleteTodolistAC(todolistId))
   }
 
   const addItemFormHandler = (newTitle:string) => {
-   const newTotolistId = v1();
-   const newTodolist: TodolistType = {id: newTotolistId, title: newTitle, filter: 'all'}
-    todolistsDispatch(addTodolistAC(newTodolist))
-    tasksDispatch(addTaskAC(newTodolist.id))
+    todolistsDispatch(addTodolistAC(newTitle))
+    tasksDispatch(addTodolistAC(newTitle))
   }
 
 
