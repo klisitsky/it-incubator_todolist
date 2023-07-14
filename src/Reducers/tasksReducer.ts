@@ -1,6 +1,5 @@
-import {AllTasksType} from "../App";
 import {v1} from "uuid";
-import {AddTodolistActionType, DeleteTodolistActionType} from "./todolistsReducer";
+import {AddTodolistActionType, DeleteTodolistActionType, todolistId1, todolistId2} from "./todolistsReducer";
 
 
 type GlobalActionType = AddTaskActionType
@@ -10,7 +9,32 @@ type GlobalActionType = AddTaskActionType
     | AddTodolistActionType
     | DeleteTodolistActionType
 
-export const tasksReducer = (state: AllTasksType, action: GlobalActionType):AllTasksType => {
+export type TaskType = {
+  id: string
+  title: string
+  isDone: boolean
+}
+
+export type AllTasksType = {
+  [todolistId: string]: Array<TaskType>
+}
+
+const initialState: AllTasksType = {
+  [todolistId1]:[
+    { id: v1(), title: "HTML&CSS", isDone: true },
+    { id: v1(), title: "JS", isDone: true },
+    { id: v1(), title: "ReactJS", isDone: false },
+    { id: v1(), title: "NodeJS", isDone: true }
+  ],
+  [todolistId2]:[
+    { id: v1(), title: "Хлебушек", isDone: true },
+    { id: v1(), title: "Молочко", isDone: true },
+    { id: v1(), title: "Конфетки", isDone: false },
+    { id: v1(), title: "Курочка", isDone: true }
+  ]
+}
+
+export const tasksReducer = (state: AllTasksType = initialState, action: GlobalActionType):AllTasksType => {
   switch (action.type) {
     case 'ADD-TASK':
         const newTask = { id: v1(), title: action.payLoad.taskTitle, isDone: false }

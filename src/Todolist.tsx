@@ -11,6 +11,7 @@ import Checkbox from '@mui/material/Checkbox';
 import Paper from "@mui/material/Paper";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Button from "@mui/material/Button";
+import {TaskType} from "./Reducers/tasksReducer";
 
 type TodolistPropsType = {
   newShapka: string
@@ -24,12 +25,6 @@ type TodolistPropsType = {
   deleteTodolist: (todolistId: string) => void
   updateTask: (todolistId: string, taskId: string, taskTitle:string) => void
   changeTodolistTitle: (todolistId:string, newTodolistTitle: string) => void
-}
-
-export type TaskType = {
-  id: string
-  title: string
-  isDone: boolean
 }
 
 

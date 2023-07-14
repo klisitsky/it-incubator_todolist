@@ -1,4 +1,4 @@
-import {FilterType, TodolistType} from "../App";
+import {FilterType} from "../App";
 import {v1} from "uuid";
 
 
@@ -6,6 +6,17 @@ type GlobalActionType = ChangeTodolistFilterActionType |
                         ChangeTodolistTitleActionType |
                         DeleteTodolistActionType |
                         AddTodolistActionType
+
+export type TodolistType = {
+  id: string
+  title: string
+  filter: FilterType
+}
+
+export const todolistId1 = v1();
+export const todolistId2 = v1();
+
+
 
 export const todolistsReducer = (state: Array<TodolistType>, action: GlobalActionType):Array<TodolistType> => {
   switch (action.type) {
