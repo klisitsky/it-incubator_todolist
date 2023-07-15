@@ -49,8 +49,8 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = (props) => {
                style={{minWidth: '300px'}}
 
     />
-    <IconButton>
-        <AddBoxIcon onClick={onClickBtnAddHandler} style={{cursor: 'pointer'}} fontSize={'large'} color={'primary'}></AddBoxIcon>
+    <IconButton onClick={onClickBtnAddHandler} >
+        <AddBoxIcon style={{cursor: 'pointer'}} fontSize={'large'} color={'primary'}></AddBoxIcon>
     </IconButton>
   </div>
   );

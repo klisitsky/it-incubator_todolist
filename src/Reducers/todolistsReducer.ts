@@ -16,9 +16,12 @@ export type TodolistType = {
 export const todolistId1 = v1();
 export const todolistId2 = v1();
 
+const initialState: Array<TodolistType> = [
+  {id:todolistId1, title: 'What to learn', filter: 'all'},
+  {id:todolistId2, title: 'What to buy', filter: 'all'}
+]
 
-
-export const todolistsReducer = (state: Array<TodolistType>, action: GlobalActionType):Array<TodolistType> => {
+export const todolistsReducer = (state = initialState, action: GlobalActionType):Array<TodolistType> => {
   switch (action.type) {
     case 'CHANGE-TODOLIST-FILTER':
       return state.map(tl => tl.id === action.payLoad.todolistId

@@ -6,9 +6,6 @@ import ButtonAppBar from "./components/AppBar/AppBar";
 import Container from "@mui/material/Container";
 import Grid from '@mui/material/Grid';
 import {
-  addTaskAC, AllTasksType, changeTaskStatusAC, removeTaskAC, updateTaskAC
-} from "./Reducers/tasksReducer";
-import {
   addTodolistAC, changeTodolistFilterAC, changeTodolistTitleAC, deleteTodolistAC, TodolistType
 } from "./Reducers/todolistsReducer";
 import {useDispatch, useSelector} from "react-redux";
@@ -24,7 +21,6 @@ function App() {
 
   const dispatch = useDispatch()
   const todolists = useSelector<AppRootStateType, Array<TodolistType>>(state => state.todolists)
-  const tasks = useSelector<AppRootStateType, AllTasksType>(state => state.tasks)
 
   const changeFilter = (todolistId: string, newFilter:FilterType) => {
     dispatch(changeTodolistFilterAC(todolistId, newFilter))
@@ -43,23 +39,6 @@ function App() {
   }
 
 
-  const addTask = (todolistId: string, taskTitle:string) => {
-    dispatch(addTaskAC(todolistId, taskTitle))
-   }
-
-  const updateTask = (todolistId: string, taskId: string, taskTitle:string) => {
-    dispatch(updateTaskAC(todolistId, taskId, taskTitle))
-  }
-
-  const removeTask = (todolistId: string, taskId:string) => {
-    dispatch(removeTaskAC(todolistId, taskId))
-  }
-
-  const changeTaskStatus = (todolistId: string, taskId: string, newIsDone:boolean) => {
-    dispatch(changeTaskStatusAC(todolistId, taskId, newIsDone))
-  }
-
-
   return (<>
       <ButtonAppBar/>
       <Container maxWidth={'xl'}>
@@ -70,29 +49,12 @@ function App() {
           <Grid container spacing={6}>
             {todolists.map(todo => {
 
-              let filteredTasks = tasks[todo.id]
-
-              switch (todo.filter) {
-                case 'active':
-                  filteredTasks = tasks[todo.id].filter(task => !task.isDone)
-                  break;
-                case 'completed':
-                  filteredTasks = tasks[todo.id].filter(task => task.isDone)
-                  break;
-              }
-
-              return <Grid item xs={4}><Todolist
-                key={todo.id}
+              return <Grid key={todo.id} item xs={4}><Todolist
                 todolistId={todo.id}
                 newShapka={todo.title}
-                tasks={filteredTasks}
-                removeTask={removeTask}
-                addTask={addTask}
-                callbackOnChangeChkBox={changeTaskStatus}
-                filter={todo.filter}
+                todolistFilter={todo.filter}
                 changeFilter={changeFilter}
                 deleteTodolist={deleteTodolist}
-                updateTask={updateTask}
                 changeTodolistTitle={changeTodolistTitle}
               /></Grid>
             })}
