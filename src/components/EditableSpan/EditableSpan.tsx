@@ -1,4 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import React, {ChangeEvent, KeyboardEvent, useCallback, useState} from 'react';
 import TextField from "@mui/material/TextField";
 
 type EditableSpanPropsType = {
@@ -6,16 +6,16 @@ type EditableSpanPropsType = {
   callback: (newTitle: string) => void
 }
 
-export const EditableSpan: React.FC<EditableSpanPropsType> = (props) => {
-
-
+export const EditableSpan: React.FC<EditableSpanPropsType> = React.memo((props) => {
+  console.log('EditableSpan rendered: ' + props.oldTitle)
   const [edit, setEdit] = useState<boolean>(true)
   const [newTitle, setNewTitle] = useState<string>(props.oldTitle)
 
-  const EditHandler = () => {
+  const EditHandler = useCallback(() => {
     setEdit(!edit)
     props.callback(newTitle)
-  }
+  }, [props.callback])
+
   const onChangeHandler = (event:ChangeEvent<HTMLInputElement>) => {
     setNewTitle(event.currentTarget.value)
   }
@@ -36,4 +36,4 @@ export const EditableSpan: React.FC<EditableSpanPropsType> = (props) => {
 
 
   );
-};
+})

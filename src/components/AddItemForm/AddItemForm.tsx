@@ -1,4 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import React, {ChangeEvent, KeyboardEvent, useCallback, useState} from 'react';
 import s from './AddItemForm.module.css'
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import TextField from '@mui/material/TextField';
@@ -9,18 +9,17 @@ type AddItemFormPropsType = {
   placeholder?: string
 }
 
-export const AddItemForm: React.FC<AddItemFormPropsType> = (props) => {
-
+export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo((props) => {
+  console.log('AddItemForm: ' + props.placeholder)
 
   let [title, setTitle] = useState<string>('')
   let [error, setError] = useState<string|null>(null)
-
   const onChangeInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    setError(null)
+    if (!error) setError(null)
     setTitle(event.currentTarget.value)
   }
 
-  const onClickBtnAddHandler = () => {
+  const onClickBtnAddHandler = useCallback(() => {
     title = title.trim()
     if (title) {
       props.addItem(title)
@@ -29,7 +28,7 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = (props) => {
       setError('Заполните поле')
     }
     setTitle('')
-  }
+  }, [props.addItem, title, error])
 
   const onKeyUpInputHandler = (event:KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
@@ -54,4 +53,4 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = (props) => {
     </IconButton>
   </div>
   );
-};
+})
