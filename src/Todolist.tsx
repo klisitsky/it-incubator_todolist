@@ -9,11 +9,14 @@ import IconButton from '@mui/material/IconButton';
 import Paper from "@mui/material/Paper";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Button from "@mui/material/Button";
-import {addTaskAC, TaskType} from "./Reducers/tasksReducer";
+import {TaskType} from "./redux/Reducers/tasksReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./redux/redux-store";
 import {Task} from "./components/Task/Task";
-import {changeTodolistFilterAC, changeTodolistTitleAC, deleteTodolistAC} from "./Reducers/todolistsReducer";
+import {changeTodolistFilterAC, changeTodolistTitleAC, deleteTodolistAC} from "./redux/actions/todolistsActions";
+import {addTaskAC} from "./redux/actions/tasksActions";
+import {tasksSelector} from "./redux/selectors/selectors";
+
 
 type TodolistPropsType = {
   todolistTitle: string
@@ -23,9 +26,9 @@ type TodolistPropsType = {
 
 
 export const Todolist = React.memo((props: TodolistPropsType) => {
-  console.log('Todolist rendred: ' + props.todolistTitle)
   const dispatch = useDispatch()
-  const tasks = useSelector<AppRootStateType, Array<TaskType>>(state => state.tasks[props.todolistId])
+  const selectedTasksByTodolistId = tasksSelector(props.todolistId)
+  const tasks = useSelector<AppRootStateType, Array<TaskType>>(selectedTasksByTodolistId)
   let filteredTasks = tasks
 
   switch (props.todolistFilter) {
@@ -37,9 +40,9 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
       break;
   }
 
-  const changeTodolistTitle = (changedTodolistTitle: string) => {
+  const changeTodolistTitle = useCallback((changedTodolistTitle: string) => {
     dispatch(changeTodolistTitleAC(props.todolistId, changedTodolistTitle))
-  }
+  }, [props.todolistId])
 
   const onDeleteTodolistClickHandler = useCallback(() => {
     dispatch(deleteTodolistAC(props.todolistId))
@@ -64,27 +67,28 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
 
     <div className={s.cardContainer}>
       <Paper elevation={3} style={{padding: '20px'}}>
-      <h2>
-        <EditableSpan oldTitle={props.todolistTitle} callback={changeTodolistTitle}/>
-        <IconButton onClick={onDeleteTodolistClickHandler} >
-          <DeleteIcon style={{cursor: 'pointer'}} fontSize={'large'}></DeleteIcon>
-        </IconButton>
-      </h2>
-      <AddItemForm addItem={addTask} placeholder={'Новая задача'}/>
-      <List disablePadding>
-        {renderedTasks}
-      </List>
-      <div>
-        <ButtonGroup>
-          <Button variant={props.todolistFilter === 'all' ? 'contained' : 'outlined'}
-                  onClick={() => changeTodolistFilter('all')}>All</Button>
-          <Button variant={props.todolistFilter === 'active' ? 'contained' : 'outlined'}
-                  onClick={() => changeTodolistFilter('active')}>Active</Button>
-          <Button variant={props.todolistFilter === 'completed' ? 'contained' : 'outlined'}
-                  onClick={() => changeTodolistFilter('completed')}>Completed</Button>
-        </ButtonGroup>
-      </div>
-    </Paper></div>
+        <h2>
+          <EditableSpan oldTitle={props.todolistTitle} callback={changeTodolistTitle}/>
+          <IconButton onClick={onDeleteTodolistClickHandler}>
+            <DeleteIcon style={{cursor: 'pointer'}} fontSize={'large'}></DeleteIcon>
+          </IconButton>
+        </h2>
+        <AddItemForm addItem={addTask} placeholder={'Новая задача'}/>
+        <List disablePadding>
+          {renderedTasks}
+        </List>
+        <div>
+          <ButtonGroup>
+            <Button variant={props.todolistFilter === 'all' ? 'contained' : 'outlined'}
+                    onClick={() => changeTodolistFilter('all')}>All</Button>
+            <Button variant={props.todolistFilter === 'active' ? 'contained' : 'outlined'}
+                    onClick={() => changeTodolistFilter('active')}>Active</Button>
+            <Button variant={props.todolistFilter === 'completed' ? 'contained' : 'outlined'}
+                    onClick={() => changeTodolistFilter('completed')}>Completed</Button>
+          </ButtonGroup>
+        </div>
+      </Paper>
+    </div>
   );
 })
 

@@ -1,8 +1,13 @@
 import {v1} from "uuid";
 import {AddTodolistActionType, DeleteTodolistActionType, todolistId1, todolistId2} from "./todolistsReducer";
+import {addTaskAC, changeTaskStatusAC, removeTaskAC, updateTaskAC} from "../actions/tasksActions";
 
+export type AddTaskActionType = ReturnType<typeof addTaskAC>
+export type RemoveTaskActionType = ReturnType<typeof removeTaskAC>
+export type ChangeTaskStatusActionType = ReturnType<typeof changeTaskStatusAC>
+export type UpdateTaskActionType = ReturnType<typeof updateTaskAC>
 
-type GlobalActionType = AddTaskActionType
+type ActionsType = AddTaskActionType
     | RemoveTaskActionType
     | ChangeTaskStatusActionType
     | UpdateTaskActionType
@@ -34,7 +39,7 @@ const initialState: AllTasksType = {
   ]
 }
 
-export const tasksReducer = (state: AllTasksType = initialState, action: GlobalActionType):AllTasksType => {
+export const tasksReducer = (state: AllTasksType = initialState, action: ActionsType):AllTasksType => {
   switch (action.type) {
     case 'ADD-TASK':
         const newTask = { id: v1(), title: action.payLoad.taskTitle, isDone: false }
@@ -69,43 +74,8 @@ export const tasksReducer = (state: AllTasksType = initialState, action: GlobalA
 }
 
 
-export type AddTaskActionType = ReturnType<typeof addTaskAC>
-export const addTaskAC = (todolistId: string, taskTitle:string) => ({
-  type: 'ADD-TASK',
-  payLoad: {
-    todolistId,
-    taskTitle
-  }
-} as const)
 
 
-export type RemoveTaskActionType = ReturnType<typeof removeTaskAC>
-export const removeTaskAC = (todolistId: string, taskId:string) => ({
-  type: 'REMOVE-TASK',
-  payLoad: {
-    todolistId,
-    taskId
-  }
-} as const)
 
 
-export type ChangeTaskStatusActionType = ReturnType<typeof changeTaskStatusAC>
-export const changeTaskStatusAC = (todolistId: string, taskId: string, newIsDone:boolean) => ({
-  type: 'CHANGE-STATUS-TASK',
-  payLoad: {
-    todolistId,
-    taskId,
-    newIsDone
-  }
-} as const)
 
-
-export type UpdateTaskActionType = ReturnType<typeof updateTaskAC>
-export const updateTaskAC = (todolistId: string, taskId: string, taskTitle:string) => ({
-  type: 'UPDATE-TASK',
-  payLoad: {
-    todolistId,
-    taskId,
-    taskTitle
-  }
-} as const)

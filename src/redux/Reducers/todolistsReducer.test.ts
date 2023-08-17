@@ -1,8 +1,7 @@
 import {v1} from "uuid";
-import {FilterType} from "../App";
-import {
-  changeTodolistFilterAC, changeTodolistTitleAC, deleteTodolistAC, todolistsReducer, TodolistType
-} from "./todolistsReducer";
+import {FilterType} from "../../App";
+import {todolistsReducer, TodolistType} from "./todolistsReducer";
+import {changeTodolistFilterAC, changeTodolistTitleAC, deleteTodolistAC} from "../actions/todolistsActions";
 
 let startState: Array<TodolistType>
 let todolistId1: string

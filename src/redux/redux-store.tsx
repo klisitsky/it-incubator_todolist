@@ -1,6 +1,12 @@
-import {combineReducers, createStore } from 'redux'
-import {todolistsReducer} from "../Reducers/todolistsReducer";
-import {tasksReducer} from "../Reducers/tasksReducer";
+import {combineReducers, legacy_createStore, compose} from 'redux'
+import {todolistsReducer} from "./Reducers/todolistsReducer";
+import {tasksReducer} from "./Reducers/tasksReducer";
+
+declare global {
+  interface Window {
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose
+  }
+}
 
 
 const rootReducer = combineReducers({
@@ -8,7 +14,10 @@ const rootReducer = combineReducers({
   tasks: tasksReducer
 })
 
-export type AppRootStateType = ReturnType<typeof rootReducer>
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
-export const store = createStore(rootReducer)
+
+export const store = legacy_createStore(rootReducer, composeEnhancers())
+
+export type AppRootStateType = ReturnType<typeof rootReducer>
 
