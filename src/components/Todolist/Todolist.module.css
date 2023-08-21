@@ -21,3 +21,9 @@
 .finishedTask {
   opacity: 0.5;
 }
+
+.taskItemBody {
+  padding-right: 70px;
+  display: flex;
+  justify-content: space-between;
+}

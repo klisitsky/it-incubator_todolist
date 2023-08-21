@@ -1,21 +1,21 @@
 import React, {useCallback} from "react";
-import {FilterType} from "./App";
+import {FilterType} from "../../App";
 import s from './Todolist.module.css'
-import {AddItemForm} from "./components/AddItemForm/AddItemForm";
-import {EditableSpan} from "./components/EditableSpan/EditableSpan";
+import {AddItemForm} from "../AddItemForm/AddItemForm";
+import {EditableSpan} from "../EditableSpan/EditableSpan";
 import DeleteIcon from '@mui/icons-material/Delete';
-import List from '@mui/material/List';
 import IconButton from '@mui/material/IconButton';
 import Paper from "@mui/material/Paper";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Button from "@mui/material/Button";
-import {TaskType} from "./redux/Reducers/tasksReducer";
+import {TaskType} from "../../redux/Reducers/tasksReducer";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "./redux/redux-store";
-import {Task} from "./components/Task/Task";
-import {changeTodolistFilterAC, changeTodolistTitleAC, deleteTodolistAC} from "./redux/actions/todolistsActions";
-import {addTaskAC} from "./redux/actions/tasksActions";
-import {tasksSelector} from "./redux/selectors/selectors";
+import {AppRootStateType} from "../../redux/redux-store";
+import {Task} from "../Task/Task";
+import {changeTodolistFilterAC, changeTodolistTitleAC, deleteTodolistAC} from "../../redux/actions/todolistsActions";
+import {addTaskAC} from "../../redux/actions/tasksActions";
+import {tasksSelector} from "../../redux/selectors/selectors";
+import Grid from "@mui/material/Grid";
 
 
 type TodolistPropsType = {
@@ -64,31 +64,30 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
   })
 
   return (
-
-    <div className={s.cardContainer}>
-      <Paper elevation={3} style={{padding: '20px'}}>
-        <h2>
-          <EditableSpan oldTitle={props.todolistTitle} callback={changeTodolistTitle}/>
-          <IconButton onClick={onDeleteTodolistClickHandler}>
-            <DeleteIcon style={{cursor: 'pointer'}} fontSize={'large'}></DeleteIcon>
-          </IconButton>
-        </h2>
-        <AddItemForm addItem={addTask} placeholder={'Новая задача'}/>
-        <List disablePadding>
+    <Grid key={props.todolistId} item xs={4}>
+      <div className={s.cardContainer}>
+        <Paper elevation={3} style={{padding: '20px'}}>
+          <h2>
+            <EditableSpan oldTitle={props.todolistTitle} callback={changeTodolistTitle}/>
+            <IconButton onClick={onDeleteTodolistClickHandler}>
+              <DeleteIcon style={{cursor: 'pointer'}} fontSize={'large'}></DeleteIcon>
+            </IconButton>
+          </h2>
+          <AddItemForm addItem={addTask} placeholder={'Новая задача'}/>
           {renderedTasks}
-        </List>
-        <div>
-          <ButtonGroup>
-            <Button variant={props.todolistFilter === 'all' ? 'contained' : 'outlined'}
-                    onClick={() => changeTodolistFilter('all')}>All</Button>
-            <Button variant={props.todolistFilter === 'active' ? 'contained' : 'outlined'}
-                    onClick={() => changeTodolistFilter('active')}>Active</Button>
-            <Button variant={props.todolistFilter === 'completed' ? 'contained' : 'outlined'}
-                    onClick={() => changeTodolistFilter('completed')}>Completed</Button>
-          </ButtonGroup>
-        </div>
-      </Paper>
-    </div>
+          <div>
+            <ButtonGroup>
+              <Button variant={props.todolistFilter === 'all' ? 'contained' : 'outlined'}
+                      onClick={() => changeTodolistFilter('all')}>All</Button>
+              <Button variant={props.todolistFilter === 'active' ? 'contained' : 'outlined'}
+                      onClick={() => changeTodolistFilter('active')}>Active</Button>
+              <Button variant={props.todolistFilter === 'completed' ? 'contained' : 'outlined'}
+                      onClick={() => changeTodolistFilter('completed')}>Completed</Button>
+            </ButtonGroup>
+          </div>
+        </Paper>
+      </div>
+    </Grid>
   );
 })
 

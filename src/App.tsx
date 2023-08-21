@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import {Todolist} from "./Todolist";
+import {Todolist} from "./components/Todolist/Todolist";
 import {AddItemForm} from "./components/AddItemForm/AddItemForm";
 import ButtonAppBar from "./components/AppBar/AppBar";
 import Container from "@mui/material/Container";
@@ -18,7 +18,7 @@ const App = React.memo(() => {
   const dispatch = useDispatch()
   const todolists = useSelector<AppRootStateType, Array<TodolistType>>(todolistsSelector)
 
-  const addTodolist = (newTitle:string) => {
+  const addTodolist = (newTitle: string) => {
     dispatch(addTodolistAC(newTitle))
   }
 
@@ -32,12 +32,10 @@ const App = React.memo(() => {
           <Grid container spacing={6}>
             {todolists.map(todo => {
               return (
-                  <Grid key={todo.id} item xs={4}>
-                    <Todolist
-                        todolistId={todo.id}
-                        todolistTitle={todo.title}
-                        todolistFilter={todo.filter}
-              /></Grid>
+                <Todolist
+                  todolistId={todo.id}
+                  todolistTitle={todo.title}
+                  todolistFilter={todo.filter}/>
               )
             })}
           </Grid>

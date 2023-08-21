@@ -7,13 +7,14 @@ import IconButton from "@mui/material/IconButton";
 type AddItemFormPropsType = {
   addItem: (title: string) => void
   placeholder?: string
+  error?: string | undefined | null
 }
 
 export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo((props) => {
   console.log('AddItemForm: ' + props.placeholder)
 
   let [title, setTitle] = useState<string>('')
-  let [error, setError] = useState<string|null>(null)
+  let [error, setError] = useState<string | undefined | null>(props.error)
   const onChangeInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
     if (!error) setError(null)
     setTitle(event.currentTarget.value)
