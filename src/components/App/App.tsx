@@ -1,20 +1,20 @@
 import React from 'react';
 import './App.css';
-import {Todolist} from "./components/Todolist/Todolist";
-import {AddItemForm} from "./components/AddItemForm/AddItemForm";
-import ButtonAppBar from "./components/AppBar/AppBar";
+import {Todolist} from "../Todolist/Todolist";
+import {AddItemForm} from "../AddItemForm/AddItemForm";
+import ButtonAppBar from "../AppBar/ButtonAppBar";
 import Container from "@mui/material/Container";
 import Grid from '@mui/material/Grid';
-import {TodolistType} from "./redux/Reducers/todolistsReducer";
+import {TodolistType} from "../../redux/Reducers/todolistsReducer";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "./redux/redux-store";
-import {addTodolistAC} from "./redux/actions/todolistsActions";
-import {todolistsSelector} from "./redux/selectors/selectors";
+import {AppRootStateType} from "../../redux/redux-store";
+import {addTodolistAC} from "../../redux/actions/todolistsActions";
+import {todolistsSelector} from "../../redux/selectors/selectors";
 
 export type FilterType = 'all' | 'active' | 'completed'
 
 const App = React.memo(() => {
-  console.log('App rendred')
+
   const dispatch = useDispatch()
   const todolists = useSelector<AppRootStateType, Array<TodolistType>>(todolistsSelector)
 

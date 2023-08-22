@@ -1,39 +1,33 @@
-import React, {ChangeEvent, KeyboardEvent, useCallback, useState} from 'react';
+import React from 'react';
 import TextField from "@mui/material/TextField";
+import {useEditableSpan} from "./hooks/useEditableSpan";
 
-type EditableSpanPropsType = {
+export type EditableSpanPropsType = {
   oldTitle: string
   callback: (newTitle: string) => void
+  edit?: boolean
 }
 
 export const EditableSpan: React.FC<EditableSpanPropsType> = React.memo((props) => {
-  console.log('EditableSpan rendered: ' + props.oldTitle)
-  const [edit, setEdit] = useState<boolean>(true)
-  const [newTitle, setNewTitle] = useState<string>(props.oldTitle)
 
-  const EditHandler = useCallback(() => {
-    setEdit(!edit)
-    props.callback(newTitle)
-  }, [props.callback])
-
-  const onChangeHandler = (event:ChangeEvent<HTMLInputElement>) => {
-    setNewTitle(event.currentTarget.value)
-  }
-
-  const onKeyUpInputHandler = (event:KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') EditHandler()
-  }
+  const {
+    edit,
+    EditOnHandler,
+    EditOffHandler,
+    newTitle,
+    oldTitle,
+    onChangeHandler,
+    onKeyUpInputHandler
+  } = useEditableSpan(props.oldTitle, props.callback, props.edit)
 
   return (
-    edit
-      ? <span onDoubleClick={EditHandler}>{props.oldTitle}</span>
-      : <TextField onBlur={EditHandler}
+    !edit
+      ? <span onDoubleClick={EditOnHandler}>{oldTitle}</span>
+      : <TextField onBlur={EditOffHandler}
                value={newTitle}
                onChange={onChangeHandler}
                onKeyUp={onKeyUpInputHandler}
                autoFocus
                size={'small'}/>
-
-
   );
 })

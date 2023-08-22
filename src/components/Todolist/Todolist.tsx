@@ -1,5 +1,5 @@
-import React, {useCallback} from "react";
-import {FilterType} from "../../App";
+import React from "react";
+import {FilterType} from "../App/App";
 import s from './Todolist.module.css'
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
@@ -8,14 +8,9 @@ import IconButton from '@mui/material/IconButton';
 import Paper from "@mui/material/Paper";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Button from "@mui/material/Button";
-import {TaskType} from "../../redux/Reducers/tasksReducer";
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "../../redux/redux-store";
 import {Task} from "../Task/Task";
-import {changeTodolistFilterAC, changeTodolistTitleAC, deleteTodolistAC} from "../../redux/actions/todolistsActions";
-import {addTaskAC} from "../../redux/actions/tasksActions";
-import {tasksSelector} from "../../redux/selectors/selectors";
 import Grid from "@mui/material/Grid";
+import {useTodolist} from "./hooks/useTodolist";
 
 
 type TodolistPropsType = {
@@ -26,38 +21,14 @@ type TodolistPropsType = {
 
 
 export const Todolist = React.memo((props: TodolistPropsType) => {
-  const dispatch = useDispatch()
-  const selectedTasksByTodolistId = tasksSelector(props.todolistId)
-  const tasks = useSelector<AppRootStateType, Array<TaskType>>(selectedTasksByTodolistId)
-  let filteredTasks = tasks
 
-  switch (props.todolistFilter) {
-    case 'active':
-      filteredTasks = tasks.filter(task => !task.isDone)
-      break;
-    case 'completed':
-      filteredTasks = tasks.filter(task => task.isDone)
-      break;
-  }
-
-  const changeTodolistTitle = useCallback((changedTodolistTitle: string) => {
-    dispatch(changeTodolistTitleAC(props.todolistId, changedTodolistTitle))
-  }, [props.todolistId])
-
-  const onDeleteTodolistClickHandler = useCallback(() => {
-    dispatch(deleteTodolistAC(props.todolistId))
-  }, [props.todolistId])
-
-
-  const changeTodolistFilter = useCallback((newFilter: FilterType) => {
-    dispatch(changeTodolistFilterAC(props.todolistId, newFilter))
-  }, [props.todolistId])
-
-
-  const addTask = useCallback((title: string) => {
-    dispatch(addTaskAC(props.todolistId, title))
-  }, [props.todolistId])
-
+  const {
+    filteredTasks,
+    changeTodolistTitle,
+    onDeleteTodolistClickHandler,
+    addTask,
+    changeTodolistFilter
+  } = useTodolist(props.todolistId, props.todolistFilter)
 
   const renderedTasks = filteredTasks.map(task => {
     return <Task key={task.id} task={task} todolistId={props.todolistId}/>

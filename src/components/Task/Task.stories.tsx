@@ -13,18 +13,20 @@ const meta: Meta<typeof Task> = {
 
 type Story = StoryObj<typeof Task>;
 
+export const TaskIsNotDone: Story = {
+  args: {
+    task: {id: '1', title: 'Задача выполнена', isDone: false},
+    todolistId: todolistId2
+  }
+};
+
 export const TaskIsDone: Story = {
   args: {
-    task: {id: '1', title: 'Задача не выполнена', isDone: false},
+    task: {id: '1', title: 'Задача не выполнена', isDone: true},
     todolistId: todolistId1
   }
 };
 
-export const TaskIsNotDone: Story = {
-  args: {
-    task: {id: '1', title: 'Задача выполнена', isDone: true},
-    todolistId: todolistId2
-  }
-};
+
 
 export default meta;

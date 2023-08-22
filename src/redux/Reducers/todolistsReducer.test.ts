@@ -1,5 +1,5 @@
 import {v1} from "uuid";
-import {FilterType} from "../../App";
+import {FilterType} from "../../components/App/App";
 import {todolistsReducer, TodolistType} from "./todolistsReducer";
 import {changeTodolistFilterAC, changeTodolistTitleAC, deleteTodolistAC} from "../actions/todolistsActions";
 

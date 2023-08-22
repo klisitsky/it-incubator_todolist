@@ -1,4 +1,4 @@
-import {FilterType} from "../../App";
+import {FilterType} from "../../components/App/App";
 import {v1} from "uuid";
 
 export const changeTodolistFilterAC = (todolistId: string, newFilter:FilterType) => ({
