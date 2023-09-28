@@ -8,13 +8,14 @@ export const useEditableSpan = (oldTitle: string,
   const [newTitle, setNewTitle] = useState<string>(oldTitle)
 
   const EditOffHandler = useCallback(() => {
-    setEdit(!edit)
+    setEdit(false)
     onNewTitleSetted(newTitle)
-  }, [onNewTitleSetted])
+  }, [onNewTitleSetted, newTitle])
 
   const EditOnHandler = () => {
-    setEdit(!edit)
+    setEdit(true)
   }
+
   const onChangeHandler = (event:ChangeEvent<HTMLInputElement>) => {
     setNewTitle(event.currentTarget.value)
   }

@@ -1,5 +1,4 @@
 import React from "react";
-import {FilterType} from "../App/App";
 import s from './Todolist.module.css'
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
@@ -11,6 +10,7 @@ import Button from "@mui/material/Button";
 import {Task} from "../Task/Task";
 import Grid from "@mui/material/Grid";
 import {useTodolist} from "./hooks/useTodolist";
+import {FilterType} from "../../redux/Reducers/todolistsReducer";
 
 
 type TodolistPropsType = {

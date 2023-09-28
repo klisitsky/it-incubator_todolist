@@ -1,9 +1,10 @@
 import {useDispatch} from "react-redux";
 import {changeTaskStatusAC, removeTaskAC, updateTaskAC} from "../../../redux/actions/tasksActions";
+import {TaskStatuses} from "../../../api/tasks-api";
 
 export const useTask = (todolistId: string,
                         taskId: string,
-                        taskIsDone: boolean) => {
+                        taskStatus: TaskStatuses) => {
 
   const dispatch = useDispatch()
 
@@ -16,9 +17,11 @@ export const useTask = (todolistId: string,
   }
 
   const onChangeChkBoxHandler = () => {
-    dispatch(changeTaskStatusAC(todolistId, taskId, !taskIsDone))
+    const newTaskStatus = taskStatus === TaskStatuses.New
+      ? TaskStatuses.Completed
+      : TaskStatuses.New
+    dispatch(changeTaskStatusAC(todolistId, taskId, newTaskStatus))
   }
-
 
   return {
     onChangeChkBoxHandler,

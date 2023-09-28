@@ -1,4 +1,3 @@
-import {FilterType} from "../../components/App/App";
 import {v1} from "uuid";
 import {
   addTodolistAC,
@@ -6,6 +5,7 @@ import {
   changeTodolistTitleAC,
   deleteTodolistAC
 } from "../actions/todolistsActions";
+import {TodolistType} from "../../api/todolist-api";
 
 export type ChangeTodolistFilterActionType = ReturnType<typeof changeTodolistFilterAC>
 export type ChangeTodolistTitleActionType = ReturnType<typeof changeTodolistTitleAC>
@@ -17,21 +17,22 @@ type ActionsType = ChangeTodolistFilterActionType |
                         DeleteTodolistActionType |
                         AddTodolistActionType
 
-export type TodolistType = {
-  id: string
-  title: string
+
+export type FilterType = 'all' | 'active' | 'completed'
+
+export type TodolistDomainType = TodolistType & {
   filter: FilterType
 }
 
 export const todolistId1 = v1();
 export const todolistId2 = v1();
 
-const initialState: Array<TodolistType> = [
-  {id:todolistId1, title: 'What to learn', filter: 'all'},
-  {id:todolistId2, title: 'What to buy', filter: 'all'}
+const initialState: Array<TodolistDomainType> = [
+  {id:todolistId1, title: 'What to learn', filter: 'all', addedDate: '', order: 0},
+  {id:todolistId2, title: 'What to buy', filter: 'active', addedDate: '', order: 1}
 ]
 
-export const todolistsReducer = (state = initialState, action: ActionsType):Array<TodolistType> => {
+export const todolistsReducer = (state = initialState, action: ActionsType):Array<TodolistDomainType> => {
   switch (action.type) {
     case 'CHANGE-TODOLIST-FILTER':
       return state.map(tl => tl.id === action.payLoad.todolistId
@@ -49,10 +50,12 @@ export const todolistsReducer = (state = initialState, action: ActionsType):Arra
       return state.filter(tl => tl.id !== action.payLoad.todolistId)
 
     case "ADD-TODOLIST":
-      const newTodolist: TodolistType = {
+      const newTodolist: TodolistDomainType = {
         id: action.payLoad.todolistId,
         title: action.payLoad.newTitle,
-        filter: 'all'
+        filter: 'all',
+        addedDate: '',
+        order: 1
       }
       return [...state, newTodolist]
 

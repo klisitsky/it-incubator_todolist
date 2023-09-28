@@ -1,5 +1,5 @@
-import {FilterType} from "../../components/App/App";
 import {v1} from "uuid";
+import {FilterType} from "../Reducers/todolistsReducer";
 
 export const changeTodolistFilterAC = (todolistId: string, newFilter:FilterType) => ({
   type: 'CHANGE-TODOLIST-FILTER',

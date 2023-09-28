@@ -1,8 +1,9 @@
 import {AppRootStateType} from "../redux-store";
-import {TodolistType} from "../Reducers/todolistsReducer";
-import {TaskType} from "../Reducers/tasksReducer";
+import {TaskType} from "../../api/tasks-api";
+import {TodolistDomainType} from "../Reducers/todolistsReducer";
 
-export const todolistsSelector = (state:AppRootStateType):Array<TodolistType> => {
+
+export const todolistsSelector = (state:AppRootStateType):Array<TodolistDomainType> => {
   return state.todolists
 }
 

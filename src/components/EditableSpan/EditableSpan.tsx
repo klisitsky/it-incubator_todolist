@@ -15,14 +15,13 @@ export const EditableSpan: React.FC<EditableSpanPropsType> = React.memo((props) 
     EditOnHandler,
     EditOffHandler,
     newTitle,
-    oldTitle,
     onChangeHandler,
     onKeyUpInputHandler
   } = useEditableSpan(props.oldTitle, props.callback, props.edit)
 
   return (
     !edit
-      ? <span onDoubleClick={EditOnHandler}>{oldTitle}</span>
+      ? <span onDoubleClick={EditOnHandler}>{props.oldTitle}</span>
       : <TextField onBlur={EditOffHandler}
                value={newTitle}
                onChange={onChangeHandler}

@@ -1,11 +1,11 @@
 import React from "react";
-import {TaskType} from "../../redux/Reducers/tasksReducer";
 import s from "../Todolist/Todolist.module.css";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Checkbox from "@mui/material/Checkbox";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
 import {useTask} from "./hooks/useTask";
+import {TaskStatuses, TaskType} from "../../api/tasks-api";
 
 type TaskPropsType = {
   task: TaskType
@@ -17,14 +17,15 @@ export const Task: React.FC<TaskPropsType> = React.memo((props) => {
     onChangeChkBoxHandler,
     EditableSpanCallbackForTask,
     onClickHandler
-  } = useTask(props.todolistId, props.task.id, props.task.isDone)
+  } = useTask(props.todolistId, props.task.id, props.task.status)
+
 
 
   return (
     <div className={s.taskItemBody}>
-      <div className={props.task.isDone ? s.finishedTask : ''}>
+      <div className={props.task.status === TaskStatuses.Completed ? s.finishedTask : ''}>
         <Checkbox onChange={onChangeChkBoxHandler}
-                  defaultChecked={props.task.isDone}/>
+                  defaultChecked={props.task.status === TaskStatuses.Completed}/>
         <EditableSpan oldTitle={props.task.title} callback={EditableSpanCallbackForTask}/>
       </div>
       <div>
