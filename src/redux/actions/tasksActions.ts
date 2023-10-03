@@ -1,14 +1,12 @@
-import {TaskStatuses} from "../../api/tasks-api";
+import {TaskStatuses, TaskType} from "../../api/tasks-api";
 
-export const addTaskAC = (todolistId: string, taskTitle:string) => ({
-  type: 'ADD-TASK',
-  payLoad: {
-    todolistId,
-    taskTitle
-  }
+export const createTaskAC = (todolistId: string, task:TaskType) => ({
+  type: 'CREATE-TASK',
+  todolistId,
+  task
 } as const)
 
-export const removeTaskAC = (todolistId: string, taskId:string) => ({
+export const deleteTaskAC = (todolistId: string, taskId:string) => ({
   type: 'REMOVE-TASK',
   payLoad: {
     todolistId,
@@ -33,3 +31,10 @@ export const updateTaskAC = (todolistId: string, taskId: string, taskTitle:strin
     taskTitle
   }
 } as const)
+
+export const setTasksAC = (todolistId: string, tasks: TaskType[]) => ({
+  type: 'SET-TASKS',
+  todolistId,
+  tasks
+} as const)
+

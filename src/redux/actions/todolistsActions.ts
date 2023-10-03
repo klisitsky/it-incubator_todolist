@@ -1,5 +1,6 @@
 import {v1} from "uuid";
 import {FilterType} from "../Reducers/todolistsReducer";
+import {TodolistType} from "../../api/todolist-api";
 
 export const changeTodolistFilterAC = (todolistId: string, newFilter:FilterType) => ({
   type: 'CHANGE-TODOLIST-FILTER',
@@ -30,4 +31,9 @@ export const addTodolistAC = (newTitle: string) => ({
     newTitle,
     todolistId: v1()
   }
+} as const)
+
+export const setTodolists = (todolists: TodolistType[]) => ({
+  type: 'SET-TODOLISTS',
+  todolists
 } as const)

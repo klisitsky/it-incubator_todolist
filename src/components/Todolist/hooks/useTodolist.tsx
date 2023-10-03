@@ -1,16 +1,23 @@
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {tasksSelector} from "../../../redux/selectors/selectors";
-import {AppRootStateType} from "../../../redux/redux-store";
-import React, {useCallback} from "react";
+import {AppRootStateType, useAppDispatch} from "../../../redux/redux-store";
+import React, {useCallback, useEffect} from "react";
 import {changeTodolistFilterAC, changeTodolistTitleAC, deleteTodolistAC} from "../../../redux/actions/todolistsActions";
-import {addTaskAC} from "../../../redux/actions/tasksActions";
 import {FilterType} from "../../../redux/Reducers/todolistsReducer";
 import {TaskStatuses, TaskType} from "../../../api/tasks-api";
+import {createTaskTC, getTasksTC} from "../../../redux/thunks/thunksTasks";
 
 
 export const useTodolist = (todolistId: string,
                             todolistFilter: FilterType) => {
-  const dispatch = useDispatch()
+
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    dispatch(getTasksTC(todolistId))
+  },[dispatch])
+
+
   const selectedTasksByTodolistId = tasksSelector(todolistId)
   const tasks = useSelector<AppRootStateType, Array<TaskType>>(selectedTasksByTodolistId)
   let filteredTasks = tasks
@@ -39,7 +46,7 @@ export const useTodolist = (todolistId: string,
 
 
   const addTask = useCallback((title: string) => {
-    dispatch(addTaskAC(todolistId, title))
+    dispatch(createTaskTC(todolistId, title))
   }, [todolistId])
 
 

@@ -1,11 +1,23 @@
-
+import {instanse} from "./todolist-api";
 
 
 export const TasksApi = {
-  getTasks() {},
-  updateTask() {},
-  setTask() {},
-  deleteTask() {}
+
+  getTasks(todolistId: string) {
+    return instanse.get<ResponseTasksType>(`todo-lists/${todolistId}/tasks`)
+  },
+
+  updateStatusTask(todolistId: string, taskId: string, status: TaskStatuses) {
+    return instanse.put<ResponseTaskType>(`todo-lists/${todolistId}/tasks/${taskId}`, {status})
+  },
+
+  createTask(todolistId: string, title: string) {
+    return instanse.post<ResponseTaskType<{item: TaskType}>>(`todo-lists/${todolistId}/tasks`, {title})
+  },
+
+  deleteTask(todolistId: string, taskId: string) {
+    return instanse.delete<ResponseTaskType>(`todo-lists/${todolistId}/tasks/${taskId}`)
+  }
 }
 
 export enum TaskStatuses {
@@ -36,11 +48,14 @@ export type TaskType = {
   addedDate: string
 }
 
-
-
-export type ResponseTasksType<D = {}> = {
-  "items": TaskType[]
-  "totalCount": number,
-  "error": string
+export type ResponseTasksType = {
+  items: TaskType[]
+  totalCount: number,
+  error: string
 }
 
+export type ResponseTaskType<D = {}> = {
+  resultCode: number
+  messages: string[]
+  data: D
+}

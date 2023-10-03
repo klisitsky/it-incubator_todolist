@@ -1,6 +1,6 @@
 import {v1} from "uuid";
 import {AllTasksType, tasksReducer} from "./tasksReducer";
-import {addTaskAC, changeTaskStatusAC, removeTaskAC, updateTaskAC} from "../actions/tasksActions";
+import {createTaskAC, changeTaskStatusAC, deleteTaskAC, updateTaskAC} from "../actions/tasksActions";
 import {deleteTodolistAC} from "../actions/todolistsActions";
 import {TaskPriorities, TaskStatuses} from "../../api/tasks-api";
 
@@ -120,8 +120,7 @@ beforeEach(() => {
 
 test('new task should be added', () => {
 
-  const newTaskTitle = "ohhhh"
-  const endState = tasksReducer(startState, addTaskAC(todolistId1, newTaskTitle))
+  const endState = tasksReducer(startState, createTaskAC(todolistId1, startState[todolistId1][0]))
 
   expect(startState[todolistId1].length).toBe(4)
   expect(endState[todolistId1].length).toBe(5)
@@ -130,7 +129,7 @@ test('new task should be added', () => {
 
 test('the task should be removed', () => {
 
-  const endState = tasksReducer(startState, removeTaskAC(todolistId1, startState[todolistId1][0].id))
+  const endState = tasksReducer(startState, deleteTaskAC(todolistId1, startState[todolistId1][0].id))
 
   expect(startState[todolistId1].length).toBe(4)
   expect(endState[todolistId1].length).toBe(3)

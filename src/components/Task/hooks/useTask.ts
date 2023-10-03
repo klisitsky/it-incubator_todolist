@@ -1,15 +1,16 @@
-import {useDispatch} from "react-redux";
-import {changeTaskStatusAC, removeTaskAC, updateTaskAC} from "../../../redux/actions/tasksActions";
+import {changeTaskStatusAC, updateTaskAC} from "../../../redux/actions/tasksActions";
 import {TaskStatuses} from "../../../api/tasks-api";
+import {deleteTaskTC} from "../../../redux/thunks/thunksTasks";
+import {useAppDispatch} from "../../../redux/redux-store";
 
 export const useTask = (todolistId: string,
                         taskId: string,
                         taskStatus: TaskStatuses) => {
 
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   const onClickHandler = () => {
-    dispatch(removeTaskAC(todolistId, taskId))
+    dispatch(deleteTaskTC(todolistId, taskId))
   }
 
   const EditableSpanCallbackForTask = (newTitle: string) => {

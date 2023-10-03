@@ -1,9 +1,8 @@
-import {v1} from "uuid";
 import {
   addTodolistAC,
   changeTodolistFilterAC,
   changeTodolistTitleAC,
-  deleteTodolistAC
+  deleteTodolistAC, setTodolists
 } from "../actions/todolistsActions";
 import {TodolistType} from "../../api/todolist-api";
 
@@ -11,11 +10,13 @@ export type ChangeTodolistFilterActionType = ReturnType<typeof changeTodolistFil
 export type ChangeTodolistTitleActionType = ReturnType<typeof changeTodolistTitleAC>
 export type DeleteTodolistActionType = ReturnType<typeof deleteTodolistAC>
 export type AddTodolistActionType = ReturnType<typeof addTodolistAC>
+export type SetTodolistsActionType = ReturnType<typeof setTodolists>
 
-type ActionsType = ChangeTodolistFilterActionType |
-                        ChangeTodolistTitleActionType |
-                        DeleteTodolistActionType |
-                        AddTodolistActionType
+type ActionsType = ChangeTodolistFilterActionType
+  | ChangeTodolistTitleActionType
+  | DeleteTodolistActionType
+  | AddTodolistActionType
+  | SetTodolistsActionType
 
 
 export type FilterType = 'all' | 'active' | 'completed'
@@ -24,13 +25,8 @@ export type TodolistDomainType = TodolistType & {
   filter: FilterType
 }
 
-export const todolistId1 = v1();
-export const todolistId2 = v1();
 
-const initialState: Array<TodolistDomainType> = [
-  {id:todolistId1, title: 'What to learn', filter: 'all', addedDate: '', order: 0},
-  {id:todolistId2, title: 'What to buy', filter: 'active', addedDate: '', order: 1}
-]
+const initialState: Array<TodolistDomainType> = []
 
 export const todolistsReducer = (state = initialState, action: ActionsType):Array<TodolistDomainType> => {
   switch (action.type) {
@@ -58,6 +54,9 @@ export const todolistsReducer = (state = initialState, action: ActionsType):Arra
         order: 1
       }
       return [...state, newTodolist]
+
+    case "SET-TODOLISTS":
+      return action.todolists.map(el => ({...el, filter: 'all'}))
 
     default:
       return state

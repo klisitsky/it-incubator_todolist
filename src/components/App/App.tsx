@@ -1,20 +1,27 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
 import {Todolist} from "../Todolist/Todolist";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import ButtonAppBar from "../AppBar/ButtonAppBar";
 import Container from "@mui/material/Container";
 import Grid from '@mui/material/Grid';
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "../../redux/redux-store";
+import {useSelector} from "react-redux";
+import { AppRootStateType, useAppDispatch} from "../../redux/redux-store";
 import {addTodolistAC} from "../../redux/actions/todolistsActions";
 import {todolistsSelector} from "../../redux/selectors/selectors";
 import {TodolistDomainType} from "../../redux/Reducers/todolistsReducer"
+import {getTodolistsTC} from "../../redux/thunks/thunksTodolists";
 
 const App = React.memo(() => {
 
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
+
   const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(todolistsSelector)
+
+  useEffect(() => {
+    dispatch(getTodolistsTC())
+  }, [dispatch])
+
 
   const addTodolist = (newTitle: string) => {
     dispatch(addTodolistAC(newTitle))
