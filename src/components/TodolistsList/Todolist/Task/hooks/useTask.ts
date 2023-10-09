@@ -1,7 +1,6 @@
-import {changeTaskStatusAC, updateTaskAC} from "../../../redux/actions/tasksActions";
-import {TaskStatuses} from "../../../api/tasks-api";
-import {deleteTaskTC} from "../../../redux/thunks/thunksTasks";
-import {useAppDispatch} from "../../../redux/redux-store";
+import {TaskStatuses} from "../../../../../api/tasks-api";
+import {deleteTaskTC, updateTaskTC} from "../../../../../redux/thunks/thunksTasks";
+import {useAppDispatch} from "../../../../../redux/redux-store";
 
 export const useTask = (todolistId: string,
                         taskId: string,
@@ -14,14 +13,14 @@ export const useTask = (todolistId: string,
   }
 
   const EditableSpanCallbackForTask = (newTitle: string) => {
-    dispatch(updateTaskAC(todolistId, taskId, newTitle))
+    dispatch(updateTaskTC(todolistId, taskId, {title: newTitle}))
   }
 
   const onChangeChkBoxHandler = () => {
     const newTaskStatus = taskStatus === TaskStatuses.New
       ? TaskStatuses.Completed
       : TaskStatuses.New
-    dispatch(changeTaskStatusAC(todolistId, taskId, newTaskStatus))
+    dispatch(updateTaskTC(todolistId, taskId, {status: newTaskStatus}))
   }
 
   return {

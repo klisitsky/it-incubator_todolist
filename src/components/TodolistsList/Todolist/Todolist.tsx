@@ -1,16 +1,16 @@
 import React from "react";
 import s from './Todolist.module.css'
-import {AddItemForm} from "../AddItemForm/AddItemForm";
-import {EditableSpan} from "../EditableSpan/EditableSpan";
+import {AddItemForm} from "../../AddItemForm/AddItemForm";
+import {EditableSpan} from "../../EditableSpan/EditableSpan";
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import Paper from "@mui/material/Paper";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Button from "@mui/material/Button";
-import {Task} from "../Task/Task";
+import {Task} from "./Task/Task";
 import Grid from "@mui/material/Grid";
 import {useTodolist} from "./hooks/useTodolist";
-import {FilterType} from "../../redux/Reducers/todolistsReducer";
+import {FilterType} from "../../../redux/Reducers/todolistsReducer";
 
 
 type TodolistPropsType = {

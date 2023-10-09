@@ -1,11 +1,12 @@
 import {useSelector} from "react-redux";
-import {tasksSelector} from "../../../redux/selectors/selectors";
-import {AppRootStateType, useAppDispatch} from "../../../redux/redux-store";
+import {tasksSelector} from "../../../../redux/selectors/selectors";
+import {AppRootStateType, useAppDispatch} from "../../../../redux/redux-store";
 import React, {useCallback, useEffect} from "react";
-import {changeTodolistFilterAC, changeTodolistTitleAC, deleteTodolistAC} from "../../../redux/actions/todolistsActions";
-import {FilterType} from "../../../redux/Reducers/todolistsReducer";
-import {TaskStatuses, TaskType} from "../../../api/tasks-api";
-import {createTaskTC, getTasksTC} from "../../../redux/thunks/thunksTasks";
+import {changeTodolistFilterAC} from "../../../../redux/actions/todolistsActions";
+import {FilterType} from "../../../../redux/Reducers/todolistsReducer";
+import {TaskStatuses, TaskType} from "../../../../api/tasks-api";
+import {createTaskTC, getTasksTC} from "../../../../redux/thunks/thunksTasks";
+import {deleteTodolistTC, updateTodolistTC} from "../../../../redux/thunks/thunksTodolists";
 
 
 export const useTodolist = (todolistId: string,
@@ -32,11 +33,11 @@ export const useTodolist = (todolistId: string,
   }
 
   const changeTodolistTitle = useCallback((changedTodolistTitle: string) => {
-    dispatch(changeTodolistTitleAC(todolistId, changedTodolistTitle))
+    dispatch(updateTodolistTC(todolistId, changedTodolistTitle))
   }, [todolistId])
 
   const onDeleteTodolistClickHandler = useCallback(() => {
-    dispatch(deleteTodolistAC(todolistId))
+    dispatch(deleteTodolistTC(todolistId))
   }, [todolistId])
 
 

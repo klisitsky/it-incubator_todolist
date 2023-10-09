@@ -1,6 +1,6 @@
 import {v1} from "uuid";
 import {AllTasksType, tasksReducer} from "./tasksReducer";
-import {createTaskAC, changeTaskStatusAC, deleteTaskAC, updateTaskAC} from "../actions/tasksActions";
+import {createTaskAC, deleteTaskAC, updateTaskAC} from "../actions/tasksActions";
 import {deleteTodolistAC} from "../actions/todolistsActions";
 import {TaskPriorities, TaskStatuses} from "../../api/tasks-api";
 
@@ -138,7 +138,7 @@ test('the task should be removed', () => {
 
 test('the task status should be changed', () => {
 
-  const endState = tasksReducer(startState, changeTaskStatusAC(todolistId1, startState[todolistId1][0].id, TaskStatuses.New))
+  const endState = tasksReducer(startState, updateTaskAC(todolistId1, startState[todolistId1][0].id, {status: TaskStatuses.New}))
 
   expect(startState[todolistId1].length).toBe(4)
   expect(endState[todolistId1].length).toBe(4)
@@ -148,7 +148,7 @@ test('the task status should be changed', () => {
 
 test('the task title should be changed', () => {
 
-  const endState = tasksReducer(startState, updateTaskAC(todolistId1, startState[todolistId1][0].id, 'bla-bla'))
+  const endState = tasksReducer(startState, updateTaskAC(todolistId1, startState[todolistId1][0].id, {title: 'bla-bla'}))
 
   expect(endState[todolistId1].length).toBe(4)
   expect(startState[todolistId1][0].title).toBe("HTML&CSS")
