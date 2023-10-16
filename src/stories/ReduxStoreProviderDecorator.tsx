@@ -1,16 +1,18 @@
 import React from 'react';
 import {Provider} from "react-redux";
-import {AppRootStateType} from "../redux/redux-store";
+import {AppRootStateType} from "../components/App/redux-store";
 import {todolistsReducer} from "../redux/Reducers/todolistsReducer";
 import {v1} from "uuid";
 import {combineReducers, legacy_createStore} from "redux";
 import {tasksReducer} from "../redux/Reducers/tasksReducer";
 import {TaskPriorities, TaskStatuses} from "../api/tasks-api";
+import {appReducer} from "../redux/Reducers/appReducer";
 
 
 const rootReducer = combineReducers({
   todolists: todolistsReducer,
-  tasks: tasksReducer
+  tasks: tasksReducer,
+  app: appReducer
 })
 export const todolistId1 = v1();
 export const todolistId2 = v1();
@@ -18,9 +20,9 @@ export const todolistId3 = v1();
 
 const initialState: AppRootStateType = {
   todolists: [
-    {id: todolistId1, title: 'What to learn', filter: 'all', addedDate: '', order: 1},
-    {id: todolistId2, title: 'What to buy', filter: 'active', addedDate: '', order: 2},
-    {id: todolistId3, title: 'What to like', filter: 'completed', addedDate: '', order: 3}
+    {id: todolistId1, title: 'What to learn', filter: 'all', loadingStatus: 'idle', addedDate: '', order: 1},
+    {id: todolistId2, title: 'What to buy', filter: 'active', loadingStatus: 'idle', addedDate: '', order: 2},
+    {id: todolistId3, title: 'What to like', filter: 'completed', loadingStatus: 'idle', addedDate: '', order: 3}
   ],
   tasks: {
     [todolistId1]: [
@@ -34,7 +36,8 @@ const initialState: AppRootStateType = {
         description: '',
         priority: TaskPriorities.Middle,
         startDate: '',
-        todoListId: todolistId1
+        todoListId: todolistId1,
+        loadingStatus: 'idle'
       },
       {
         id: v1(),
@@ -46,7 +49,8 @@ const initialState: AppRootStateType = {
         description: '',
         priority: TaskPriorities.Middle,
         startDate: '',
-        todoListId: todolistId1
+        todoListId: todolistId1,
+        loadingStatus: 'idle'
       },
       {
         id: v1(),
@@ -58,7 +62,8 @@ const initialState: AppRootStateType = {
         description: '',
         priority: TaskPriorities.Middle,
         startDate: '',
-        todoListId: todolistId1
+        todoListId: todolistId1,
+        loadingStatus: 'idle'
       },
       {
         id: v1(),
@@ -70,7 +75,8 @@ const initialState: AppRootStateType = {
         description: '',
         priority: TaskPriorities.Middle,
         startDate: '',
-        todoListId: todolistId1
+        todoListId: todolistId1,
+        loadingStatus: 'idle'
       }
     ],
     [todolistId2]: [
@@ -84,7 +90,8 @@ const initialState: AppRootStateType = {
         description: '',
         priority: TaskPriorities.Low,
         startDate: '',
-        todoListId: todolistId2
+        todoListId: todolistId2,
+        loadingStatus: 'idle'
       },
       {
         id: v1(),
@@ -96,7 +103,8 @@ const initialState: AppRootStateType = {
         description: '',
         priority: TaskPriorities.Low,
         startDate: '',
-        todoListId: todolistId2
+        todoListId: todolistId2,
+        loadingStatus: 'idle'
       },
       {
         id: v1(),
@@ -108,7 +116,8 @@ const initialState: AppRootStateType = {
         description: '',
         priority: TaskPriorities.Low,
         startDate: '',
-        todoListId: todolistId2
+        todoListId: todolistId2,
+        loadingStatus: 'idle'
       },
       {
         id: v1(),
@@ -120,7 +129,8 @@ const initialState: AppRootStateType = {
         description: '',
         priority: TaskPriorities.Low,
         startDate: '',
-        todoListId: todolistId2
+        todoListId: todolistId2,
+        loadingStatus: 'idle'
       }
     ],
     [todolistId3]: [
@@ -134,7 +144,8 @@ const initialState: AppRootStateType = {
         description: '',
         priority: TaskPriorities.High,
         startDate: '',
-        todoListId: todolistId3
+        todoListId: todolistId3,
+        loadingStatus: 'idle'
       },
       {
         id: v1(),
@@ -146,7 +157,8 @@ const initialState: AppRootStateType = {
         description: '',
         priority: TaskPriorities.High,
         startDate: '',
-        todoListId: todolistId3
+        todoListId: todolistId3,
+        loadingStatus: 'idle'
       },
       {
         id: v1(),
@@ -158,9 +170,14 @@ const initialState: AppRootStateType = {
         description: '',
         priority: TaskPriorities.High,
         startDate: '',
-        todoListId: todolistId3
+        todoListId: todolistId3,
+        loadingStatus: 'idle'
       }
     ]
+  },
+  app: {
+    error: null,
+    status: 'loading'
   }
 }
 

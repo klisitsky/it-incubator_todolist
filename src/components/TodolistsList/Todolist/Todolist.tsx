@@ -11,17 +11,20 @@ import {Task} from "./Task/Task";
 import Grid from "@mui/material/Grid";
 import {useTodolist} from "./hooks/useTodolist";
 import {FilterType} from "../../../redux/Reducers/todolistsReducer";
+import {RequestStatusType} from "../../../redux/Reducers/appReducer";
 
 
 type TodolistPropsType = {
   todolistTitle: string
   todolistId: string
   todolistFilter: FilterType
+  todolistLoadingStatus: RequestStatusType
 }
 
 
 export const Todolist = React.memo((props: TodolistPropsType) => {
 
+  const isLoading = props.todolistLoadingStatus === 'loading'
   const {
     filteredTasks,
     changeTodolistTitle,
@@ -39,21 +42,26 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
       <div className={s.cardContainer}>
         <Paper elevation={3} style={{padding: '20px'}}>
           <h2>
-            <EditableSpan oldTitle={props.todolistTitle} callback={changeTodolistTitle}/>
-            <IconButton onClick={onDeleteTodolistClickHandler}>
+            <EditableSpan oldTitle={props.todolistTitle} callback={changeTodolistTitle} disabled={isLoading}/>
+            <IconButton onClick={onDeleteTodolistClickHandler} disabled={isLoading}>
               <DeleteIcon style={{cursor: 'pointer'}} fontSize={'large'}></DeleteIcon>
             </IconButton>
           </h2>
-          <AddItemForm addItem={addTask} placeholder={'Новая задача'}/>
+          <AddItemForm addItem={addTask}
+                       placeholder={'Новая задача'}
+                       disabled={isLoading}/>
           {renderedTasks}
           <div>
             <ButtonGroup>
               <Button variant={props.todolistFilter === 'all' ? 'contained' : 'outlined'}
-                      onClick={() => changeTodolistFilter('all')}>All</Button>
+                      onClick={() => changeTodolistFilter('all')}
+                      disabled={isLoading}>All</Button>
               <Button variant={props.todolistFilter === 'active' ? 'contained' : 'outlined'}
-                      onClick={() => changeTodolistFilter('active')}>Active</Button>
+                      onClick={() => changeTodolistFilter('active')}
+                      disabled={isLoading}>Active</Button>
               <Button variant={props.todolistFilter === 'completed' ? 'contained' : 'outlined'}
-                      onClick={() => changeTodolistFilter('completed')}>Completed</Button>
+                      onClick={() => changeTodolistFilter('completed')}
+                      disabled={isLoading}>Completed</Button>
             </ButtonGroup>
           </div>
         </Paper>

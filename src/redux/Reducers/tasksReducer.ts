@@ -5,6 +5,7 @@ import {
 } from "./todolistsReducer";
 import {createTaskAC, deleteTaskAC, setTasksAC, updateTaskAC} from "../actions/tasksActions";
 import {TaskType} from "../../api/tasks-api";
+import {RequestStatusType} from "./appReducer";
 
 
 export type TaskActionsType =
@@ -16,9 +17,11 @@ export type TaskActionsType =
   | DeleteTodolistActionType
   | SetTodolistsActionType
 
-
+export type TaskDomainType = TaskType & {
+  loadingStatus: RequestStatusType
+}
 export type AllTasksType = {
-  [todolistId: string]: Array<TaskType>
+  [todolistId: string]: Array<TaskDomainType>
 }
 
 const initialState: AllTasksType = {}
@@ -28,12 +31,12 @@ export const tasksReducer = (state: AllTasksType = initialState, action: TaskAct
     case "SET-TASKS":
       return {
         ...state,
-        [action.todolistId]: action.tasks
+        [action.todolistId]: action.tasks.map(t => ({...t, loadingStatus: 'idle'}))
       }
     case 'CREATE-TASK':
       return {
         ...state,
-        [action.todolistId]: [action.task, ...state[action.todolistId]]
+        [action.todolistId]: [{...action.task, loadingStatus: 'idle'}, ...state[action.todolistId]]
       }
     case 'REMOVE-TASK':
       return {

@@ -3,7 +3,7 @@ import Grid from "@mui/material/Grid";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
 import Container from "@mui/material/Container";
-import {AppRootStateType, useAppDispatch} from "../../redux/redux-store";
+import {AppRootStateType, useAppDispatch} from "../App/redux-store";
 import {useSelector} from "react-redux";
 import {TodolistDomainType} from "../../redux/Reducers/todolistsReducer";
 import {todolistsSelector} from "../../redux/selectors/selectors";
@@ -32,9 +32,11 @@ const TodolistsList = () => {
             {todolists.map(todo => {
               return (
                 <Todolist
+                  key={todo.id}
                   todolistId={todo.id}
                   todolistTitle={todo.title}
-                  todolistFilter={todo.filter}/>
+                  todolistFilter={todo.filter}
+                  todolistLoadingStatus={todo.loadingStatus}/>
               )
             })}
           </Grid>

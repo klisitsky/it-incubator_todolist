@@ -26,7 +26,8 @@ export const TaskIsNotDone: Story = {
       description: '',
       priority: TaskPriorities.Middle,
       startDate: '',
-      todoListId: todolistId2
+      todoListId: todolistId2,
+      loadingStatus: 'idle'
     },
     todolistId: todolistId2
   }
@@ -44,7 +45,8 @@ export const TaskIsDone: Story = {
       description: '',
       priority: TaskPriorities.Low,
       startDate: '',
-      todoListId: todolistId1
+      todoListId: todolistId1,
+      loadingStatus: 'idle'
     },
     todolistId: todolistId1
   }

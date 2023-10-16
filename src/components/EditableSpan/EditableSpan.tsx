@@ -1,11 +1,13 @@
 import React from 'react';
 import TextField from "@mui/material/TextField";
 import {useEditableSpan} from "./hooks/useEditableSpan";
+import s from './EditableSpan.module.css'
 
 export type EditableSpanPropsType = {
   oldTitle: string
   callback: (newTitle: string) => void
   edit?: boolean
+  disabled?: boolean
 }
 
 export const EditableSpan: React.FC<EditableSpanPropsType> = React.memo((props) => {
@@ -21,12 +23,14 @@ export const EditableSpan: React.FC<EditableSpanPropsType> = React.memo((props) 
 
   return (
     !edit
-      ? <span onDoubleClick={EditOnHandler}>{props.oldTitle}</span>
+      ? <span onDoubleClick={EditOnHandler}
+              className={props.disabled ? s.disabledSpan : ''}>{props.oldTitle}</span>
       : <TextField onBlur={EditOffHandler}
-               value={newTitle}
-               onChange={onChangeHandler}
-               onKeyUp={onKeyUpInputHandler}
-               autoFocus
-               size={'small'}/>
+                   value={newTitle}
+                   onChange={onChangeHandler}
+                   onKeyUp={onKeyUpInputHandler}
+                   autoFocus
+                   size={'small'}
+                   disabled={props.disabled}/>
   );
 })

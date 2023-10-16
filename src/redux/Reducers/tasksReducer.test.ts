@@ -24,7 +24,8 @@ beforeEach(() => {
         description: '',
         priority: TaskPriorities.Middle,
         startDate: '',
-        todoListId: todolistId1
+        todoListId: todolistId1,
+        loadingStatus: 'idle'
       },
       {
         id: v1(),
@@ -36,7 +37,8 @@ beforeEach(() => {
         description: '',
         priority: TaskPriorities.Middle,
         startDate: '',
-        todoListId: todolistId1
+        todoListId: todolistId1,
+        loadingStatus: 'idle'
       },
       {
         id: v1(),
@@ -48,7 +50,8 @@ beforeEach(() => {
         description: '',
         priority: TaskPriorities.Middle,
         startDate: '',
-        todoListId: todolistId1
+        todoListId: todolistId1,
+        loadingStatus: 'idle'
       },
       {
         id: v1(),
@@ -60,7 +63,8 @@ beforeEach(() => {
         description: '',
         priority: TaskPriorities.Middle,
         startDate: '',
-        todoListId: todolistId1
+        todoListId: todolistId1,
+        loadingStatus: 'idle'
       }
     ],
     [todolistId2]:[
@@ -74,7 +78,8 @@ beforeEach(() => {
         description: '',
         priority: TaskPriorities.Middle,
         startDate: '',
-        todoListId: todolistId1
+        todoListId: todolistId1,
+        loadingStatus: 'idle'
       },
       {
         id: v1(),
@@ -86,7 +91,8 @@ beforeEach(() => {
         description: '',
         priority: TaskPriorities.Middle,
         startDate: '',
-        todoListId: todolistId2
+        todoListId: todolistId2,
+        loadingStatus: 'idle'
       },
       {
         id: v1(),
@@ -98,7 +104,8 @@ beforeEach(() => {
         description: '',
         priority: TaskPriorities.Middle,
         startDate: '',
-        todoListId: todolistId2
+        todoListId: todolistId2,
+        loadingStatus: 'idle'
       },
       {
         id: v1(),
@@ -110,7 +117,8 @@ beforeEach(() => {
         description: '',
         priority: TaskPriorities.Middle,
         startDate: '',
-        todoListId: todolistId2
+        todoListId: todolistId2,
+        loadingStatus: 'idle'
       }
     ]
   }

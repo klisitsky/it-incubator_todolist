@@ -7,6 +7,7 @@ import {useAddItemForm} from "./hooks/useAddItemForm";
 
 export type AddItemFormPropsType = {
   addItem: (title: string) => void
+  disabled?: boolean
   placeholder?: string
   error?: string | undefined | null
 }
@@ -31,9 +32,12 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo((props) =>
                helperText={error}
                size={'medium'}
                style={{minWidth: '300px'}}
+               disabled={props.disabled}
     />
-    <IconButton onClick={onClickBtnAddHandler} >
-        <AddBoxIcon style={{cursor: 'pointer'}} fontSize={'large'} color={'primary'}></AddBoxIcon>
+    <IconButton onClick={onClickBtnAddHandler} disabled={props.disabled}>
+        <AddBoxIcon style={{cursor: 'pointer'}}
+                    fontSize={'large'}
+                    color={props.disabled ? 'disabled' : 'primary'}></AddBoxIcon>
     </IconButton>
   </div>
   );

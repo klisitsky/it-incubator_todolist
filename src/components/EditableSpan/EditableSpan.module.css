@@ -1,0 +1,4 @@
+.disabledSpan {
+  color: gray;
+  cursor: not-allowed;
+}

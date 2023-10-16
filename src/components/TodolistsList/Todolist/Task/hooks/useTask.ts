@@ -1,6 +1,6 @@
 import {TaskStatuses} from "../../../../../api/tasks-api";
 import {deleteTaskTC, updateTaskTC} from "../../../../../redux/thunks/thunksTasks";
-import {useAppDispatch} from "../../../../../redux/redux-store";
+import {useAppDispatch} from "../../../../App/redux-store";
 
 export const useTask = (todolistId: string,
                         taskId: string,
