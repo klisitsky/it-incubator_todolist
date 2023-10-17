@@ -6,15 +6,20 @@ import {ErrorType, RequestResultsType} from "../../api/todolist-api";
 import {handleServerError, handleServerNetworkError} from "../../utils/utils";
 import axios from "axios";
 
-export const getTasksTC = (todolistId: string): AppThunk => (dispatch: AppDispatchType) => {
+export const getTasksTC = (todolistId: string): AppThunk => async (dispatch: AppDispatchType) => {
   dispatch(setAppLoadingStatusAC('loading'))
-
-  TasksApi.getTasks(todolistId).then(data => {
-    dispatch(setTasksAC(todolistId, data.data.items))
+  try {
+    const res = await TasksApi.getTasks(todolistId)
+    dispatch(setTasksAC(todolistId, res.data.items))
     dispatch(setAppLoadingStatusAC('succeeded'))
-  }).catch(e => {
-    handleServerNetworkError(dispatch, e.message)
-  })
+  } catch (e) {
+    if (axios.isAxiosError<ErrorType>(e)) {
+      const errorMessage = e.response ? e.response.data.error : e.message
+      handleServerNetworkError(dispatch, errorMessage)
+    } else {
+      handleServerNetworkError(dispatch, (e as Error).message)
+    }
+  }
 }
 export const deleteTaskTC = (todolistId: string, taskId: string): AppThunk => async (dispatch: AppDispatchType) => {
   dispatch(setAppLoadingStatusAC('loading'))
@@ -35,25 +40,31 @@ export const deleteTaskTC = (todolistId: string, taskId: string): AppThunk => as
       dispatch(updateTaskAC(todolistId, taskId, {loadingStatus: 'failed'}))
     } else {
       handleServerNetworkError(dispatch, (e as Error).message)
+      dispatch(updateTaskAC(todolistId, taskId, {loadingStatus: 'failed'}))
     }
   }
 }
-export const createTaskTC = (todolistId: string, title: string): AppThunk => (dispatch: AppDispatchType) => {
+export const createTaskTC = (todolistId: string, title: string): AppThunk => async (dispatch: AppDispatchType) => {
   dispatch(setAppLoadingStatusAC('loading'))
-
-  TasksApi.createTask(todolistId, title).then(res => {
+  try {
+    const res = await TasksApi.createTask(todolistId, title)
     if (res.data.resultCode === RequestResultsType.OK) {
       dispatch(createTaskAC(todolistId, res.data.data.item))
       dispatch(setAppLoadingStatusAC('succeeded'))
     } else {
       handleServerError(dispatch, res.data)
     }
-  }).catch(e => {
-    handleServerNetworkError(dispatch, e.message)
-  })
+  } catch (e) {
+    if (axios.isAxiosError<ErrorType>(e)) {
+      const errorMessage = e.response ? e.response.data.error : e.message
+      handleServerNetworkError(dispatch, errorMessage)
+    } else {
+      handleServerNetworkError(dispatch, (e as Error).message)
+    }
+  }
 }
 export const updateTaskTC = (todolistId: string, taskId: string, task: TaskModelType): AppThunk =>
-  (dispatch: AppDispatchType, getState: () => AppRootStateType) => {
+  async (dispatch: AppDispatchType, getState: () => AppRootStateType) => {
     const ourTask = getState().tasks[todolistId].find(t => t.id === taskId)
     const updatedTask = {
       title: ourTask?.title,
@@ -65,16 +76,20 @@ export const updateTaskTC = (todolistId: string, taskId: string, task: TaskModel
       ...task
     }
     dispatch(setAppLoadingStatusAC('loading'))
-
-    TasksApi.updateTask(todolistId, taskId, updatedTask)
-      .then((res) => {
-        if (res.data.resultCode === RequestResultsType.OK) {
-          dispatch(updateTaskAC(todolistId, taskId, task))
-          dispatch(setAppLoadingStatusAC('succeeded'))
-        } else {
-          handleServerError(dispatch, res.data)
-        }
-      }).catch(e => {
-      handleServerNetworkError(dispatch, e.message)
-    })
+    try {
+      const res = await TasksApi.updateTask(todolistId, taskId, updatedTask)
+      if (res.data.resultCode === RequestResultsType.OK) {
+        dispatch(updateTaskAC(todolistId, taskId, task))
+        dispatch(setAppLoadingStatusAC('succeeded'))
+      } else {
+        handleServerError(dispatch, res.data)
+      }
+    } catch (e) {
+      if (axios.isAxiosError<ErrorType>(e)) {
+        const errorMessage = e.response ? e.response.data.error : e.message
+        handleServerNetworkError(dispatch, errorMessage)
+      } else {
+        handleServerNetworkError(dispatch, (e as Error).message)
+      }
+    }
   }
