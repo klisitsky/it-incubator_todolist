@@ -1,5 +1,5 @@
 import {
-  AddTodolistActionType,
+  AddTodolistActionType, ClearDataActionType,
   DeleteTodolistActionType,
   SetTodolistsActionType
 } from "./todolistsReducer";
@@ -16,6 +16,7 @@ export type TaskActionsType =
   | AddTodolistActionType
   | DeleteTodolistActionType
   | SetTodolistsActionType
+  | ClearDataActionType
 
 export type TaskDomainType = TaskType & {
   loadingStatus: RequestStatusType
@@ -61,6 +62,8 @@ export const tasksReducer = (state: AllTasksType = initialState, action: TaskAct
       action.todolists.forEach(el => stateCopy[el.id] = [])
       return stateCopy
     }
+    case "CLEAR-DATA":
+      return {}
     default:
       return state
   }

@@ -1,11 +1,11 @@
 import {useSelector} from "react-redux";
 import {tasksSelector} from "../../../../redux/selectors/selectors";
 import {AppRootStateType, useAppDispatch} from "../../../App/redux-store";
-import React, {useCallback, useEffect} from "react";
+import React, {useCallback} from "react";
 import {changeTodolistFilterAC} from "../../../../redux/actions/todolistsActions";
 import {FilterType} from "../../../../redux/Reducers/todolistsReducer";
 import {TaskStatuses} from "../../../../api/tasks-api";
-import {createTaskTC, getTasksTC} from "../../../../redux/thunks/thunksTasks";
+import {createTaskTC} from "../../../../redux/thunks/thunksTasks";
 import {deleteTodolistTC, updateTodolistTC} from "../../../../redux/thunks/thunksTodolists";
 import {TaskDomainType} from "../../../../redux/Reducers/tasksReducer";
 
@@ -15,10 +15,10 @@ export const useTodolist = (todolistId: string,
 
   const dispatch = useAppDispatch()
 
-  useEffect(() => {
-    console.log('3')
-    dispatch(getTasksTC(todolistId))
-  },[dispatch])
+  // useEffect(() => {
+  //   console.log('3')
+  //   dispatch(getTasksTC(todolistId))
+  // },[dispatch])
 
 
   const selectedTasksByTodolistId = tasksSelector(todolistId)

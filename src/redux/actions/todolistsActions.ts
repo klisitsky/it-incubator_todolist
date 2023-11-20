@@ -17,5 +17,9 @@ export const deleteTodolistAC = (todolistId:string) =>
 export const createTodolistAC = (todolist: TodolistType) =>
   ({type: 'ADD-TODOLIST', todolist} as const)
 
-export const setTodolists = (todolists: TodolistType[]) =>
+export const setTodolistsAC = (todolists: TodolistType[]) =>
   ({type: 'SET-TODOLISTS', todolists} as const)
+
+
+export const clearDataAC = () =>
+  ({type: 'CLEAR-DATA'} as const)

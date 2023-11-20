@@ -2,7 +2,7 @@ import {
   createTodolistAC,
   changeTodolistFilterAC,
   changeTodolistTitleAC,
-  deleteTodolistAC, setTodolists, changeTodolistLoadingStatusAC
+  deleteTodolistAC, setTodolistsAC, changeTodolistLoadingStatusAC, clearDataAC
 } from "../actions/todolistsActions";
 import {TodolistType} from "../../api/todolist-api";
 import {RequestStatusType} from "./appReducer";
@@ -10,7 +10,8 @@ import {RequestStatusType} from "./appReducer";
 
 export type DeleteTodolistActionType = ReturnType<typeof deleteTodolistAC>
 export type AddTodolistActionType = ReturnType<typeof createTodolistAC>
-export type SetTodolistsActionType = ReturnType<typeof setTodolists>
+export type SetTodolistsActionType = ReturnType<typeof setTodolistsAC>
+export type ClearDataActionType = ReturnType<typeof clearDataAC>
 
 export type TodolistActionsType =
   | ReturnType<typeof changeTodolistFilterAC>
@@ -19,6 +20,7 @@ export type TodolistActionsType =
   | DeleteTodolistActionType
   | AddTodolistActionType
   | SetTodolistsActionType
+  | ClearDataActionType
 
 export type FilterType = 'all' | 'active' | 'completed'
 export type TodolistDomainType = TodolistType & {
@@ -45,6 +47,8 @@ export const todolistsReducer = (state = initialState, action: TodolistActionsTy
       return [{...action.todolist, filter: 'all', loadingStatus: 'idle'}, ...state]
     case "SET-TODOLISTS":
       return action.todolists.map(el => ({...el, filter: 'all', loadingStatus: 'idle'}))
+    case "CLEAR-DATA":
+      return []
     default:
       return state
   }
