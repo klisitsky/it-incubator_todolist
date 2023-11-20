@@ -13,6 +13,7 @@ export const handleServerError = <D>(dispatch: Dispatch, res: ResponseType<D>) =
 }
 
 export const handleServerNetworkError = (dispatch: Dispatch, message: string) => {
+  debugger
   dispatch(setAppErrorAC(message))
   dispatch(setAppLoadingStatusAC('failed'))
 }

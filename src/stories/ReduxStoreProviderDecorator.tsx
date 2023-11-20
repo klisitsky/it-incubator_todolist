@@ -7,12 +7,14 @@ import {combineReducers, legacy_createStore} from "redux";
 import {tasksReducer} from "../redux/Reducers/tasksReducer";
 import {TaskPriorities, TaskStatuses} from "../api/tasks-api";
 import {appReducer} from "../redux/Reducers/appReducer";
+import {authReducer} from "../redux/Reducers/authReducer";
 
 
 const rootReducer = combineReducers({
   todolists: todolistsReducer,
   tasks: tasksReducer,
-  app: appReducer
+  app: appReducer,
+  auth: authReducer
 })
 export const todolistId1 = v1();
 export const todolistId2 = v1();
@@ -177,8 +179,10 @@ const initialState: AppRootStateType = {
   },
   app: {
     error: null,
-    status: 'loading'
-  }
+    status: 'loading',
+    isInitialized: false
+  },
+  auth: {isLoggedIn: false}
 }
 
 const store = legacy_createStore(rootReducer, initialState)

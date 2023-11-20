@@ -16,6 +16,7 @@ export const useTodolist = (todolistId: string,
   const dispatch = useAppDispatch()
 
   useEffect(() => {
+    console.log('3')
     dispatch(getTasksTC(todolistId))
   },[dispatch])
 

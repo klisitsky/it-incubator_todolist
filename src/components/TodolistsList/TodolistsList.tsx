@@ -3,23 +3,31 @@ import Grid from "@mui/material/Grid";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
 import Container from "@mui/material/Container";
-import {AppRootStateType, useAppDispatch} from "../App/redux-store";
+import {AppRootStateType, useAppDispatch, useAppSelector} from "../App/redux-store";
 import {useSelector} from "react-redux";
 import {TodolistDomainType} from "../../redux/Reducers/todolistsReducer";
 import {todolistsSelector} from "../../redux/selectors/selectors";
 import {createTodolistTC, getTodolistsTC} from "../../redux/thunks/thunksTodolists";
+import {Navigate} from "react-router-dom";
 
 const TodolistsList = () => {
 
   const dispatch = useAppDispatch()
   const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(todolistsSelector)
+  const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
 
   useEffect(() => {
+    console.log('2')
+    if (!isLoggedIn) return
     dispatch(getTodolistsTC())
   }, [dispatch])
 
   const addTodolist = (newTitle: string) => {
     dispatch(createTodolistTC(newTitle))
+  }
+
+  if (!isLoggedIn) {
+    return <Navigate to={'/login'}/>
   }
 
   return (<>

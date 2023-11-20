@@ -18,8 +18,10 @@ export const getTodolistsTC = (): AppThunk => async (dispatch: AppDispatchType) 
     dispatch(setTodolists(res.data))
     dispatch(setAppLoadingStatusAC('succeeded'))
   } catch (e) {
+    debugger
     if (axios.isAxiosError<ErrorType>(e)) {
-      const errorMessage = e.response ? e.response.data.error : e.message
+      const errorMessage = e.response ? e.response.data.message : e.message
+      debugger
       handleServerNetworkError(dispatch, errorMessage)
     } else {
       handleServerNetworkError(dispatch, (e as Error).message)
@@ -38,7 +40,7 @@ export const createTodolistTC = (title: string): AppThunk => async (dispatch: Ap
     }
   } catch (e) {
     if (axios.isAxiosError<ErrorType>(e)) {
-      const errorMessage = e.response ? e.response.data.error : e.message
+      const errorMessage = e.response ? e.response.data.message : e.message
       handleServerNetworkError(dispatch, errorMessage)
     } else {
       handleServerNetworkError(dispatch, (e as Error).message)
@@ -59,7 +61,7 @@ export const deleteTodolistTC = (todolistId: string): AppThunk => async (dispatc
     }
   } catch (e) {
     if (axios.isAxiosError<ErrorType>(e)) {
-      const errorMessage = e.response ? e.response.data.error : e.message
+      const errorMessage = e.response ? e.response.data.message : e.message
       handleServerNetworkError(dispatch, errorMessage)
       dispatch(changeTodolistLoadingStatusAC(todolistId, 'failed'))
     } else {
@@ -80,7 +82,7 @@ export const updateTodolistTC = (todolistId: string, title: string): AppThunk =>
     }
   } catch (e) {
     if (axios.isAxiosError<ErrorType>(e)) {
-      const errorMessage = e.response ? e.response.data.error : e.message
+      const errorMessage = e.response ? e.response.data.message : e.message
       handleServerNetworkError(dispatch, errorMessage)
     } else {
       handleServerNetworkError(dispatch, (e as Error).message)

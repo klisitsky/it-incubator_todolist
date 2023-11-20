@@ -1,4 +1,5 @@
-import axios from 'axios'
+import axios, {AxiosResponse} from 'axios'
+import {LoginParamsType} from "../components/Login/Login";
 
 
 export const instanse = axios.create({
@@ -7,18 +8,30 @@ export const instanse = axios.create({
   "API-KEY": "a68c16fd-b564-46c3-b168-8a8bf32018cc"
 } as any)
 
+export const authAPI = {
+  me() {
+    return instanse.get<ResponseType<UserType>, AxiosResponse<ResponseType<UserType>>>('auth/me')
+  },
+  login(payLoad: LoginParamsType) {
+    return instanse.post<ResponseType<{userId: number}>, AxiosResponse<ResponseType<{userId: number}>>, LoginParamsType>('auth/login', payLoad)
+  },
+  logOut() {
+    return instanse.delete<ResponseType>('auth/login')
+  },
+}
+
 export const TodolistApi = {
   getTodolists() {
-    return instanse.get<TodolistType[]>('todo-lists')
+    return instanse.get<TodolistType[], AxiosResponse<TodolistType[]>>('todo-lists')
   },
   updateTodolist(todolistId: string, title: string) {
-    return instanse.put<ResponseType<{item: TodolistType}>>(`todo-lists/${todolistId}`, {title})
+    return instanse.put<ResponseType<{item: TodolistType}>, AxiosResponse<ResponseType<{item: TodolistType}>>, {title: string}>(`todo-lists/${todolistId}`, {title})
   },
   createTodolist(title: string) {
-    return instanse.post<ResponseType<{item: TodolistType}>>('todo-lists', {title})
+    return instanse.post<ResponseType<{item: TodolistType}>, AxiosResponse<ResponseType<{item: TodolistType}>>, {title: string}>('todo-lists', {title})
   },
   deleteTodolist(todolistId: string) {
-    return instanse.delete<ResponseType>(`todo-lists/${todolistId}`)
+    return instanse.delete<ResponseType, AxiosResponse<ResponseType>>(`todo-lists/${todolistId}`)
   }
 }
 
@@ -26,6 +39,12 @@ export enum RequestResultsType {
   OK = 0,
   ERROR = 1,
   CAPTCHA = 2
+}
+
+export type UserType = {
+  id: number,
+  email: string,
+  login: string
 }
 
 export type TodolistType = {
@@ -42,12 +61,7 @@ export type ResponseType<D = {}> = {
 
 export type ErrorType = {
   statusCode: number
-  message: [
-    {
-      message: string
-      field: string
-    }
-  ]
+  message: string
   error: string
 }
 
