@@ -10,8 +10,7 @@ import {AppDispatchType, AppThunk} from "../../components/App/redux-store";
 import {setAppLoadingStatusAC} from "../Reducers/appReducer";
 import {handleServerError, handleServerNetworkError} from "../../utils/utils";
 import axios from "axios";
-import {TasksApi} from "../../api/tasks-api";
-import {setTasksAC} from "../actions/tasksActions";
+import {getTasksTC} from "./thunksTasks";
 
 export const getTodolistsTC = (): AppThunk => async (dispatch: AppDispatchType) => {
   dispatch(setAppLoadingStatusAC('loading'))
@@ -19,13 +18,10 @@ export const getTodolistsTC = (): AppThunk => async (dispatch: AppDispatchType) 
     const resTodos = await TodolistApi.getTodolists()
     dispatch(setTodolistsAC(resTodos.data))
     for (const todo of resTodos.data) {
-      const resTasks = await TasksApi.getTasks(todo.id)
-      dispatch(setTasksAC(todo.id, resTasks.data.items))
+      dispatch(getTasksTC(todo.id))
     }
-
     dispatch(setAppLoadingStatusAC('succeeded'))
   } catch (e) {
-    debugger
     if (axios.isAxiosError<ErrorType>(e)) {
       const errorMessage = e.response ? e.response.data.message : e.message
       debugger

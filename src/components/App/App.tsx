@@ -18,7 +18,6 @@ const App = React.memo(() => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    console.log('1')
     dispatch(meTC())
   }, [])
 
