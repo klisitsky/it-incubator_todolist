@@ -1,37 +1,40 @@
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { authAPI } from 'api/todolist-api'
+import { AppDispatchType, AppThunk } from 'components/App/redux-store'
+import { authActions } from 'redux/Reducers/authReducer'
+
+const slice = createSlice({
+  name: 'app',
+  initialState: {
+    error: null as null | string,
+    status: 'idle' as RequestStatusType,
+    isInitialized: false,
+  },
+  reducers: {
+    setAppLoadingStatus: (state, action: PayloadAction<{ status: RequestStatusType }>) => {
+      state.status = action.payload.status
+    },
+    setAppError: (state, action: PayloadAction<{ error: string | null }>) => {
+      state.error = action.payload.error
+    },
+    setAppInitializing: (state, action: PayloadAction<{ isInitialized: boolean }>) => {
+      state.isInitialized = action.payload.isInitialized
+    },
+  },
+})
+
+export const initializeAppTC = (): AppThunk => (dispatch: AppDispatchType) => {
+  authAPI.me().then((res) => {
+    if (res.data.resultCode === 0) {
+      dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }))
+    }
+    dispatch(appActions.setAppInitializing({ isInitialized: true }))
+  })
+}
+
+export const appReducer = slice.reducer
+export const appActions = slice.actions
+
+export type AppInitialStateType = ReturnType<typeof slice.getInitialState>
+
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
-
-export type SetAppStatusActionType = ReturnType<typeof setAppLoadingStatusAC>
-export type SetAppErrorActionType = ReturnType<typeof setAppErrorAC>
-export type SetAppInitializingActionType = ReturnType<typeof setAppInitializingAC>
-
-export type AppActionsType =
-  | SetAppStatusActionType
-  | SetAppErrorActionType
-  | SetAppInitializingActionType
-
-
-const initialState = {
-  error: null as null | string,
-  status: 'idle' as RequestStatusType,
-  isInitialized: false
-}
-
-type InitialStateType = typeof initialState
-
-export const appReducer = (state: InitialStateType = initialState, action: AppActionsType): InitialStateType => {
-  switch (action.type) {
-    case 'APP/SET-STATUS':
-      return {...state, status: action.status}
-    case 'APP/SET-ERROR':
-      return {...state, error: action.error}
-    case 'APP/SET-INITIALIZING':
-      return {...state, isInitialized: action.isInitialized}
-    default:
-      return state
-  }
-}
-
-export const setAppLoadingStatusAC = (status: RequestStatusType) => ({type: 'APP/SET-STATUS', status} as const)
-export const setAppErrorAC = (error: string | null) => ({type: 'APP/SET-ERROR', error} as const)
-export const setAppInitializingAC = (isInitialized: boolean) => ({type: 'APP/SET-INITIALIZING', isInitialized} as const)
-

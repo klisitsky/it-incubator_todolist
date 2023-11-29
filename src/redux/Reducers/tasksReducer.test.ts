@@ -1,8 +1,7 @@
-import {v1} from "uuid";
-import {AllTasksType, tasksReducer} from "./tasksReducer";
-import {createTaskAC, deleteTaskAC, updateTaskAC} from "../actions/tasksActions";
-import {deleteTodolistAC} from "../actions/todolistsActions";
-import {TaskPriorities, TaskStatuses} from "../../api/tasks-api";
+import { v1 } from 'uuid'
+import { AllTasksType, tasksActions, tasksReducer } from './tasksReducer'
+import { TaskPriorities, TaskStatuses } from 'api/tasks-api'
+import { todolistsActions } from 'redux/Reducers/todolistsReducer'
 
 let todolistId1: string
 let todolistId2: string
@@ -13,10 +12,10 @@ beforeEach(() => {
   todolistId2 = v1()
 
   startState = {
-    [todolistId1]:[
+    [todolistId1]: [
       {
         id: v1(),
-        title: "HTML&CSS",
+        title: 'HTML&CSS',
         addedDate: '',
         status: TaskStatuses.Completed,
         order: 1,
@@ -25,11 +24,11 @@ beforeEach(() => {
         priority: TaskPriorities.Middle,
         startDate: '',
         todoListId: todolistId1,
-        loadingStatus: 'idle'
+        loadingStatus: 'idle',
       },
       {
         id: v1(),
-        title: "JS",
+        title: 'JS',
         addedDate: '',
         status: TaskStatuses.New,
         order: 2,
@@ -38,11 +37,11 @@ beforeEach(() => {
         priority: TaskPriorities.Middle,
         startDate: '',
         todoListId: todolistId1,
-        loadingStatus: 'idle'
+        loadingStatus: 'idle',
       },
       {
         id: v1(),
-        title: "ReactJS",
+        title: 'ReactJS',
         addedDate: '',
         status: TaskStatuses.New,
         order: 3,
@@ -51,11 +50,11 @@ beforeEach(() => {
         priority: TaskPriorities.Middle,
         startDate: '',
         todoListId: todolistId1,
-        loadingStatus: 'idle'
+        loadingStatus: 'idle',
       },
       {
         id: v1(),
-        title: "NodeJS",
+        title: 'NodeJS',
         addedDate: '',
         status: TaskStatuses.Completed,
         order: 4,
@@ -64,13 +63,13 @@ beforeEach(() => {
         priority: TaskPriorities.Middle,
         startDate: '',
         todoListId: todolistId1,
-        loadingStatus: 'idle'
-      }
+        loadingStatus: 'idle',
+      },
     ],
-    [todolistId2]:[
+    [todolistId2]: [
       {
         id: v1(),
-        title: "Хлебушек",
+        title: 'Хлебушек',
         addedDate: '',
         status: TaskStatuses.New,
         order: 1,
@@ -79,11 +78,11 @@ beforeEach(() => {
         priority: TaskPriorities.Middle,
         startDate: '',
         todoListId: todolistId1,
-        loadingStatus: 'idle'
+        loadingStatus: 'idle',
       },
       {
         id: v1(),
-        title: "Молочко",
+        title: 'Молочко',
         addedDate: '',
         status: TaskStatuses.Completed,
         order: 2,
@@ -92,11 +91,11 @@ beforeEach(() => {
         priority: TaskPriorities.Middle,
         startDate: '',
         todoListId: todolistId2,
-        loadingStatus: 'idle'
+        loadingStatus: 'idle',
       },
       {
         id: v1(),
-        title: "Конфетки",
+        title: 'Конфетки',
         addedDate: '',
         status: TaskStatuses.New,
         order: 3,
@@ -105,11 +104,11 @@ beforeEach(() => {
         priority: TaskPriorities.Middle,
         startDate: '',
         todoListId: todolistId2,
-        loadingStatus: 'idle'
+        loadingStatus: 'idle',
       },
       {
         id: v1(),
-        title: "Курочка",
+        title: 'Курочка',
         addedDate: '',
         status: TaskStatuses.Completed,
         order: 4,
@@ -118,35 +117,43 @@ beforeEach(() => {
         priority: TaskPriorities.Middle,
         startDate: '',
         todoListId: todolistId2,
-        loadingStatus: 'idle'
-      }
-    ]
+        loadingStatus: 'idle',
+      },
+    ],
   }
-
 })
 
-
 test('new task should be added', () => {
-
-  const endState = tasksReducer(startState, createTaskAC(todolistId1, startState[todolistId1][0]))
+  const endState = tasksReducer(
+    startState,
+    tasksActions.createTask({ todolistId: todolistId1, task: startState[todolistId1][0] }),
+  )
 
   expect(startState[todolistId1].length).toBe(4)
   expect(endState[todolistId1].length).toBe(5)
-  expect(endState[todolistId1][0].title).toBe("ohhhh")
+  expect(endState[todolistId1][0].title).toBe('ohhhh')
 })
 
 test('the task should be removed', () => {
-
-  const endState = tasksReducer(startState, deleteTaskAC(todolistId1, startState[todolistId1][0].id))
+  const endState = tasksReducer(
+    startState,
+    tasksActions.deleteTask({ todolistId: todolistId1, taskId: startState[todolistId1][0].id }),
+  )
 
   expect(startState[todolistId1].length).toBe(4)
   expect(endState[todolistId1].length).toBe(3)
-  expect(endState[todolistId1][0].title).toBe("JS")
+  expect(endState[todolistId1][0].title).toBe('JS')
 })
 
 test('the task status should be changed', () => {
-
-  const endState = tasksReducer(startState, updateTaskAC(todolistId1, startState[todolistId1][0].id, {status: TaskStatuses.New}))
+  const endState = tasksReducer(
+    startState,
+    tasksActions.updateTask({
+      todolistId: todolistId1,
+      taskId: startState[todolistId1][0].id,
+      taskModel: { status: TaskStatuses.New },
+    }),
+  )
 
   expect(startState[todolistId1].length).toBe(4)
   expect(endState[todolistId1].length).toBe(4)
@@ -155,18 +162,23 @@ test('the task status should be changed', () => {
 })
 
 test('the task title should be changed', () => {
-
-  const endState = tasksReducer(startState, updateTaskAC(todolistId1, startState[todolistId1][0].id, {title: 'bla-bla'}))
+  const endState = tasksReducer(
+    startState,
+    tasksActions.updateTask({
+      todolistId: todolistId1,
+      taskId: startState[todolistId1][0].id,
+      taskModel: { title: 'bla-bla' },
+    }),
+  )
 
   expect(endState[todolistId1].length).toBe(4)
-  expect(startState[todolistId1][0].title).toBe("HTML&CSS")
+  expect(startState[todolistId1][0].title).toBe('HTML&CSS')
   expect(endState[todolistId1][0].title).toBe('bla-bla')
   expect(startState[todolistId1][0]).not.toBe(endState[todolistId1][0])
 })
 
 test('the property with tasks should be removed', () => {
-
-  const endState = tasksReducer(startState, deleteTodolistAC(todolistId1))
+  const endState = tasksReducer(startState, todolistsActions.deleteTodolist({ todolistId: todolistId1 }))
 
   const keys = Object.keys(endState)
 

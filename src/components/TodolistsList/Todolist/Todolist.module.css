@@ -2,7 +2,6 @@
   min-width: 400px;
 }
 
-
 .activeFilter {
   background-color: aquamarine;
   border: 1px solid darkslategray;
@@ -11,7 +10,6 @@
 .tasksList {
   list-style-type: none;
   padding-left: 15px;
-
 }
 .task {
   display: flex;

@@ -1,6 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import {EditableSpan} from "./EditableSpan";
-import React from "react";
+import type { Meta, StoryObj } from '@storybook/react'
+import { EditableSpan } from './EditableSpan'
 
 const meta: Meta<typeof EditableSpan> = {
   title: 'TODOLIST/EditableSpan',
@@ -11,26 +10,24 @@ const meta: Meta<typeof EditableSpan> = {
     callback: {
       name: 'set text',
       action: 'setting a value',
-    }
+    },
   },
-};
+}
 
-type Story = StoryObj<typeof EditableSpan>;
-
+type Story = StoryObj<typeof EditableSpan>
 
 export const EditableSpanDefault: Story = {
   args: {
     oldTitle: 'asdasd',
-    edit: false
-  }
-};
-
+    edit: false,
+  },
+}
 
 export const EditableSpanEdit: Story = {
   args: {
     oldTitle: 'asdasd',
-    edit: true
-  }
-};
+    edit: true,
+  },
+}
 
-export default meta;
+export default meta

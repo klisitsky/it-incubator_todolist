@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import {AddItemForm} from "./AddItemForm";
+import type { Meta, StoryObj } from '@storybook/react'
+import { AddItemForm } from './AddItemForm'
 
 const meta: Meta<typeof AddItemForm> = {
   title: 'TODOLIST/AddItemForm',
@@ -11,23 +11,22 @@ const meta: Meta<typeof AddItemForm> = {
       name: 'Add Item',
       description: 'Button clicked inside form',
       action: 'clicked',
-    }
+    },
   },
-};
+}
 
-
-type Story = StoryObj<typeof AddItemForm>;
+type Story = StoryObj<typeof AddItemForm>
 
 export const AddItemFormDefault: Story = {
   args: {
-    placeholder: 'Название поля'
-  }
-};
+    placeholder: 'Название поля',
+  },
+}
 
 export const AddItemFormError: Story = {
   args: {
-    error: 'Заполните поле'
-  }
-};
+    error: 'Заполните поле',
+  },
+}
 
-export default meta;
+export default meta

@@ -1,25 +1,13 @@
-import {useSelector} from "react-redux";
-import {tasksSelector} from "../../../../redux/selectors/selectors";
-import {AppRootStateType, useAppDispatch} from "../../../App/redux-store";
-import {useCallback} from "react";
-import {changeTodolistFilterAC} from "../../../../redux/actions/todolistsActions";
-import {FilterType} from "../../../../redux/Reducers/todolistsReducer";
-import {TaskStatuses} from "../../../../api/tasks-api";
-import {createTaskTC} from "../../../../redux/thunks/thunksTasks";
-import {deleteTodolistTC, updateTodolistTC} from "../../../../redux/thunks/thunksTodolists";
-import {TaskDomainType} from "../../../../redux/Reducers/tasksReducer";
+import { useSelector } from 'react-redux'
+import { tasksSelector } from 'redux/selectors/selectors'
+import { useCallback } from 'react'
+import { deleteTodolistTC, FilterType, todolistsActions, updateTodolistTC } from 'redux/Reducers/todolistsReducer'
+import { TaskStatuses } from 'api/tasks-api'
+import { createTaskTC, TaskDomainType } from 'redux/Reducers/tasksReducer'
+import { AppRootStateType, useAppDispatch } from 'components/App/redux-store'
 
-
-export const useTodolist = (todolistId: string,
-                            todolistFilter: FilterType) => {
-
+export const useTodolist = (todolistId: string, todolistFilter: FilterType) => {
   const dispatch = useAppDispatch()
-
-  // useEffect(() => {
-  //   console.log('3')
-  //   dispatch(getTasksTC(todolistId))
-  // },[])
-
 
   const selectedTasksByTodolistId = tasksSelector(todolistId)
   const tasks = useSelector<AppRootStateType, Array<TaskDomainType>>(selectedTasksByTodolistId)
@@ -27,37 +15,43 @@ export const useTodolist = (todolistId: string,
 
   switch (todolistFilter) {
     case 'active':
-      filteredTasks = tasks.filter(task => task.status === TaskStatuses.New)
-      break;
+      filteredTasks = tasks.filter((task) => task.status === TaskStatuses.New)
+      break
     case 'completed':
-      filteredTasks = tasks.filter(task => task.status === TaskStatuses.Completed)
-      break;
+      filteredTasks = tasks.filter((task) => task.status === TaskStatuses.Completed)
+      break
   }
 
-  const changeTodolistTitle = useCallback((changedTodolistTitle: string) => {
-    dispatch(updateTodolistTC(todolistId, changedTodolistTitle))
-  }, [todolistId])
+  const changeTodolistTitle = useCallback(
+    (changedTodolistTitle: string) => {
+      dispatch(updateTodolistTC(todolistId, changedTodolistTitle))
+    },
+    [todolistId],
+  )
 
   const onDeleteTodolistClickHandler = useCallback(() => {
     dispatch(deleteTodolistTC(todolistId))
   }, [todolistId])
 
+  const changeTodolistFilter = useCallback(
+    (filter: FilterType) => {
+      dispatch(todolistsActions.changeTodolistFilter({ todolistId, filter }))
+    },
+    [todolistId],
+  )
 
-  const changeTodolistFilter = useCallback((newFilter: FilterType) => {
-    dispatch(changeTodolistFilterAC(todolistId, newFilter))
-  }, [todolistId])
-
-
-  const addTask = useCallback((title: string) => {
-    dispatch(createTaskTC(todolistId, title))
-  }, [todolistId])
-
+  const addTask = useCallback(
+    (title: string) => {
+      dispatch(createTaskTC(todolistId, title))
+    },
+    [todolistId],
+  )
 
   return {
     filteredTasks,
     changeTodolistTitle,
     onDeleteTodolistClickHandler,
     addTask,
-    changeTodolistFilter
+    changeTodolistFilter,
   }
 }

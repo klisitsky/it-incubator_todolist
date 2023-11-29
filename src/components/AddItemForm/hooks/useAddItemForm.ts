@@ -1,10 +1,6 @@
-import {ChangeEvent, KeyboardEvent, useCallback, useState} from "react";
+import { ChangeEvent, KeyboardEvent, useCallback, useState } from 'react'
 
-
-export const useAddItemForm  = (onItemAdded: (title: string) => void,
-                                errorDefault: string | undefined | null
-) => {
-
+export const useAddItemForm = (onItemAdded: (title: string) => void, errorDefault: string | undefined | null) => {
   let [title, setTitle] = useState<string>('')
   let [error, setError] = useState<string | undefined | null>(errorDefault)
 
@@ -24,9 +20,9 @@ export const useAddItemForm  = (onItemAdded: (title: string) => void,
     setTitle('')
   }, [onItemAdded, title, error])
 
-  const onKeyUpInputHandler = (event:KeyboardEvent<HTMLInputElement>) => {
+  const onKeyUpInputHandler = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      onClickBtnAddHandler();
+      onClickBtnAddHandler()
     }
   }
 
@@ -35,7 +31,6 @@ export const useAddItemForm  = (onItemAdded: (title: string) => void,
     error,
     onChangeInputHandler,
     onKeyUpInputHandler,
-    onClickBtnAddHandler
+    onClickBtnAddHandler,
   }
 }
-

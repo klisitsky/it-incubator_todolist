@@ -1,19 +1,18 @@
-import {setAppErrorAC, setAppLoadingStatusAC} from "../redux/Reducers/appReducer";
-import {Dispatch} from "redux";
-import {ResponseType} from "../api/todolist-api";
-
+import { Dispatch } from 'redux'
+import { ResponseType } from 'api/todolist-api'
+import { appActions } from 'redux/Reducers/appReducer'
 
 export const handleServerError = <D>(dispatch: Dispatch, res: ResponseType<D>) => {
   if (res.messages.length) {
-    dispatch(setAppErrorAC(res.messages[0]))
+    dispatch(appActions.setAppError({ error: res.messages[0] }))
   } else {
-    dispatch(setAppErrorAC('Some error'))
+    dispatch(appActions.setAppError({ error: 'Some error' }))
   }
-  dispatch(setAppLoadingStatusAC('failed'))
+  dispatch(appActions.setAppLoadingStatus({ status: 'failed' }))
 }
 
 export const handleServerNetworkError = (dispatch: Dispatch, message: string) => {
   debugger
-  dispatch(setAppErrorAC(message))
-  dispatch(setAppLoadingStatusAC('failed'))
+  dispatch(appActions.setAppError({ error: message }))
+  dispatch(appActions.setAppLoadingStatus({ status: 'failed' }))
 }
