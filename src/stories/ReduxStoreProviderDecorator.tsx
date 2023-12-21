@@ -1,13 +1,14 @@
 import React from 'react'
 import { Provider } from 'react-redux'
-import { AppRootStateType } from 'components/App/redux-store'
-import { todolistsReducer } from 'redux/Reducers/todolistsReducer'
+import { todolistsReducer } from 'features/TodolistsList/Todolist/todolistsReducer'
 import { v1 } from 'uuid'
 import { combineReducers, legacy_createStore } from 'redux'
-import { tasksReducer } from 'redux/Reducers/tasksReducer'
-import { TaskPriorities, TaskStatuses } from 'api/tasks-api'
-import { appReducer } from 'redux/Reducers/appReducer'
-import { authReducer } from 'redux/Reducers/authReducer'
+import { tasksReducer } from 'features/TodolistsList/Todolist/Task/tasksReducer'
+import { TaskStatuses } from 'features/TodolistsList/Todolist/Task/tasksApi'
+import { appReducer } from 'features/App/appReducer'
+import { authReducer } from 'features/auth/authReducer'
+import { AppRootStateType } from 'features/App/store'
+import { TaskPriorities } from 'common/enums'
 
 const rootReducer = combineReducers({
   todolists: todolistsReducer,
