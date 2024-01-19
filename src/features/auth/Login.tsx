@@ -7,9 +7,10 @@ import FormLabel from '@mui/material/FormLabel'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import { useFormik } from 'formik'
-import { loginTC } from 'features/auth/authReducer'
+import {authThunks} from 'features/auth/authReducer'
 import { Navigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'common/hooks'
+import {BaseResponseType} from "common/types";
 
 type FormikErrorType = {
   email?: string
@@ -17,12 +18,6 @@ type FormikErrorType = {
   rememberMe?: boolean
 }
 
-export type LoginParamsType = {
-  email: string
-  password: string
-  rememberMe?: boolean
-  captcha?: boolean
-}
 
 export const Login = () => {
   const dispatch = useAppDispatch()
@@ -37,8 +32,6 @@ export const Login = () => {
       const errors: FormikErrorType = {}
       if (!values.email) {
         errors.email = 'Required'
-      } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-        errors.email = 'Invalid email address'
       }
       if (!values.password) {
         errors.password = 'Required'
@@ -47,8 +40,14 @@ export const Login = () => {
       }
       return errors
     },
-    onSubmit: (values) => {
-      dispatch(loginTC(values))
+    onSubmit: (values, formikHelpers) => {
+      dispatch(authThunks.login(values))
+        .unwrap()
+        .catch((res: BaseResponseType) => {
+          res.fieldsErrors?.forEach(fieldError => {
+            formikHelpers.setFieldError(fieldError.field, fieldError.error)
+          })
+        })
     },
   })
 
@@ -82,7 +81,7 @@ export const Login = () => {
             <TextField
               label='Email'
               margin='normal'
-              type='email'
+              type='text'
               {...formik.getFieldProps('email')}
             />
             {formik.touched.email && formik.errors.email ? (

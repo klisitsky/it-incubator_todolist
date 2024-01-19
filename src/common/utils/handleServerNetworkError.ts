@@ -2,6 +2,14 @@ import axios from 'axios'
 import { appActions } from 'features/App/appReducer'
 import { AppDispatchType } from 'features/App/store'
 
+/**
+ * Обработчик ошибок, связанных с сервером и сетью.
+ *
+ * @param {AppDispatchType} dispatch - функция диспетча для отправки экшенов.
+ * @param {unknown} err - объект ошибки.
+ * @returns {void}
+ */
+
 export const handleServerNetworkError = (dispatch: AppDispatchType, err: unknown): void => {
   let errorMessage = 'Some error occurred'
   if (axios.isAxiosError(err)) {

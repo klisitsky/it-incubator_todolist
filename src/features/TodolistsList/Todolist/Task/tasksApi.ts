@@ -1,6 +1,6 @@
 import { instanse } from 'common/api/baseApi'
 import { RequestStatusType } from 'features/App/appReducer'
-import { ResponseType } from 'common/types/appTypes'
+import { BaseResponseType } from 'common/types/appTypes'
 import { TaskPriorities } from 'common/enums'
 
 export const TasksApi = {
@@ -8,16 +8,16 @@ export const TasksApi = {
     return instanse.get<ResponseTasksType>(`todo-lists/${todolistId}/tasks`)
   },
   updateTask(payload: updateTaskType) {
-    return instanse.put<ResponseType<{ item: TaskType }>>(
+    return instanse.put<BaseResponseType<{ item: TaskType }>>(
       `todo-lists/${payload.todolistId}/tasks/${payload.taskId}`,
       payload.taskModel,
     )
   },
   createTask(todolistId: string, title: string) {
-    return instanse.post<ResponseType<{ item: TaskType }>>(`todo-lists/${todolistId}/tasks`, { title })
+    return instanse.post<BaseResponseType<{ item: TaskType }>>(`todo-lists/${todolistId}/tasks`, { title })
   },
   deleteTask(payload: deleteTaskType) {
-    return instanse.delete<ResponseType>(`todo-lists/${payload.todolistId}/tasks/${payload.taskId}`)
+    return instanse.delete<BaseResponseType>(`todo-lists/${payload.todolistId}/tasks/${payload.taskId}`)
   },
 }
 

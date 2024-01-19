@@ -6,15 +6,15 @@ import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
 import MenuIcon from '@mui/icons-material/Menu'
-import { logOutTC } from 'features/auth/authReducer'
 import { useCallback } from 'react'
 import { useAppDispatch, useAppSelector } from 'common/hooks'
+import { authThunks } from 'features/auth/authReducer'
 
 export function ButtonAppBar() {
   const isLoggedIn = useAppSelector<boolean>((state) => state.auth.isLoggedIn)
   const dispatch = useAppDispatch()
   const logOutHandler = useCallback(() => {
-    dispatch(logOutTC())
+    dispatch(authThunks.logout())
   }, [])
 
   return (
