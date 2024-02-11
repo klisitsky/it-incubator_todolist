@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { appActions } from 'features/App/appReducer'
+import { appActions } from 'features/App/model/appReducer'
 import { AppDispatchType } from 'features/App/store'
 
 /**

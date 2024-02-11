@@ -1,12 +1,12 @@
 import React from 'react'
 import { Provider } from 'react-redux'
-import { todolistsReducer } from 'features/TodolistsList/Todolist/todolistsReducer'
+import { todolistsReducer } from 'features/TodolistsList/Todolist/model/todolistsReducer'
 import { v1 } from 'uuid'
 import { combineReducers, legacy_createStore } from 'redux'
-import { tasksReducer } from 'features/TodolistsList/Todolist/Task/tasksReducer'
-import { TaskStatuses } from 'features/TodolistsList/Todolist/Task/tasksApi'
-import { appReducer } from 'features/App/appReducer'
-import { authReducer } from 'features/auth/authReducer'
+import { tasksReducer } from 'features/TodolistsList/Todolist/Task/model/tasksReducer'
+import { TaskStatuses } from 'features/TodolistsList/Todolist/Task/api/tasksApi'
+import { appReducer } from 'features/App/model/appReducer'
+import { authReducer } from 'features/auth/model/authReducer'
 import { AppRootStateType } from 'features/App/store'
 import { TaskPriorities } from 'common/enums'
 
@@ -20,7 +20,7 @@ export const todolistId1 = v1()
 export const todolistId2 = v1()
 export const todolistId3 = v1()
 
-const initialState: AppRootStateType = {
+export const initialState: AppRootStateType = {
   todolists: {
     todolists: [
       { id: todolistId1, title: 'What to learn', filter: 'all', loadingStatus: 'idle', addedDate: '', order: 1 },

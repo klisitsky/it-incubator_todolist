@@ -1,8 +1,8 @@
-import { BaseThunkAPI } from '@reduxjs/toolkit/dist/createAsyncThunk';
-import { BaseResponseType} from 'common/types';
-import {AppDispatchType, AppRootStateType} from 'features/App/store';
-import {appActions} from "features/App/appReducer";
-import { handleServerNetworkError } from './handleServerNetworkError';
+import { BaseThunkAPI } from '@reduxjs/toolkit/dist/createAsyncThunk'
+import { BaseResponse } from 'common/types'
+import { AppDispatchType, AppRootStateType } from 'features/App/store'
+import { appActions } from 'features/App/model/appReducer'
+import { handleServerNetworkError } from './handleServerNetworkError'
 
 /**
  * Обертка для асинхронных thunk-функций, предназначенная для обработки ошибок и управления состоянием загрузки.
@@ -15,17 +15,17 @@ import { handleServerNetworkError } from './handleServerNetworkError';
  */
 
 export const thunkTryCatch = async <T>(
-  thunkAPI: BaseThunkAPI<AppRootStateType, unknown, AppDispatchType, null | BaseResponseType>,
-  logic: () => Promise<T>
+  thunkAPI: BaseThunkAPI<AppRootStateType, unknown, AppDispatchType, null | BaseResponse>,
+  logic: () => Promise<T>,
 ): Promise<T | ReturnType<typeof thunkAPI.rejectWithValue>> => {
-  const { dispatch, rejectWithValue } = thunkAPI;
-  dispatch(appActions.setAppLoadingStatus({ status: "loading" }));
+  const { dispatch, rejectWithValue } = thunkAPI
+  dispatch(appActions.setAppLoadingStatus({ status: 'loading' }))
   try {
-    return await logic();
+    return await logic()
   } catch (e) {
-    handleServerNetworkError(dispatch, e);
-    return rejectWithValue(null);
+    handleServerNetworkError(dispatch, e)
+    return rejectWithValue(null)
   } finally {
-    dispatch(appActions.setAppLoadingStatus({ status: "idle" }));
+    dispatch(appActions.setAppLoadingStatus({ status: 'idle' }))
   }
-};
+}
