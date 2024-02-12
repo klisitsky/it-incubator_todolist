@@ -2,7 +2,7 @@ import * as React from 'react'
 import Stack from '@mui/material/Stack'
 import Snackbar from '@mui/material/Snackbar'
 import MuiAlert, { AlertProps } from '@mui/material/Alert'
-import { appActions } from 'features/App/model/appReducer'
+import { appActions } from 'features/App/model/appSlice'
 import { useAppSelector } from 'common/hooks'
 import { useActions } from 'common/hooks/useActions'
 
@@ -34,7 +34,7 @@ export const AppSnackbar = () => {
       sx={{ width: '100%' }}>
       <Snackbar
         open={!!error}
-        autoHideDuration={3000}
+        autoHideDuration={4000}
         onClose={handleClose}>
         <Alert
           onClose={handleClose}

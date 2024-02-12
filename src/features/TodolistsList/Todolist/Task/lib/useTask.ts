@@ -1,5 +1,5 @@
 import { TaskStatuses } from 'features/TodolistsList/Todolist/Task/api/tasksApi'
-import { tasksThunks } from 'features/TodolistsList/Todolist/Task/model/tasksReducer'
+import { tasksThunks } from 'features/TodolistsList/Todolist/Task/model/tasksSlice'
 import { useActions } from 'common/hooks/useActions'
 
 export const useTask = (todolistId: string, taskId: string, taskStatus: TaskStatuses) => {

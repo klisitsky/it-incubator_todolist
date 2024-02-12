@@ -8,7 +8,7 @@ import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
 import MenuIcon from '@mui/icons-material/Menu'
 import { useAppSelector } from 'common/hooks'
-import { authThunks } from 'features/auth/model/authReducer'
+import { authThunks } from 'features/auth/model/authSlice'
 import { useActions } from 'common/hooks/useActions'
 
 export function ButtonAppBar() {

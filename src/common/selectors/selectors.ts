@@ -1,5 +1,5 @@
-import { TodolistDomainType } from 'features/TodolistsList/Todolist/model/todolistsReducer'
-import { TaskDomain } from 'features/TodolistsList/Todolist/Task/model/tasksReducer'
+import { TodolistDomainType } from 'features/TodolistsList/Todolist/model/todolistsSlice'
+import { TaskDomain } from 'features/TodolistsList/Todolist/Task/model/tasksSlice'
 import { AppRootStateType } from 'features/App/store'
 
 export const todolistsSelector = (state: AppRootStateType): Array<TodolistDomainType> => {

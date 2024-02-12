@@ -1,5 +1,5 @@
 import { instanse } from 'common/api/baseApi'
-import { RequestStatus } from 'features/App/model/appReducer'
+import { RequestStatus } from 'features/App/model/appSlice'
 import { BaseResponse } from 'common/types/appTypes'
 import { TaskPriorities } from 'common/enums'
 

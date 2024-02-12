@@ -1,20 +1,20 @@
 import React from 'react'
 import { Provider } from 'react-redux'
-import { todolistsReducer } from 'features/TodolistsList/Todolist/model/todolistsReducer'
+import { todolistsSlice } from 'features/TodolistsList/Todolist/model/todolistsSlice'
 import { v1 } from 'uuid'
 import { combineReducers, legacy_createStore } from 'redux'
-import { tasksReducer } from 'features/TodolistsList/Todolist/Task/model/tasksReducer'
+import { tasksSlice } from 'features/TodolistsList/Todolist/Task/model/tasksSlice'
 import { TaskStatuses } from 'features/TodolistsList/Todolist/Task/api/tasksApi'
-import { appReducer } from 'features/App/model/appReducer'
-import { authReducer } from 'features/auth/model/authReducer'
+import { appSlice } from 'features/App/model/appSlice'
+import { authSlice } from 'features/auth/model/authSlice'
 import { AppRootStateType } from 'features/App/store'
 import { TaskPriorities } from 'common/enums'
 
 const rootReducer = combineReducers({
-  todolists: todolistsReducer,
-  tasks: tasksReducer,
-  app: appReducer,
-  auth: authReducer,
+  todolists: todolistsSlice,
+  tasks: tasksSlice,
+  app: appSlice,
+  auth: authSlice,
 })
 export const todolistId1 = v1()
 export const todolistId2 = v1()

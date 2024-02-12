@@ -21,14 +21,14 @@ export const AddItemFormDefault: Story = {
   args: {
     placeholder: 'Название поля',
   },
-  render: () => <AddItemForm addItem={() => {}} />,
+  // render: () => <AddItemForm addItem={() => {}} />,
 }
 
 export const AddItemFormError: Story = {
   args: {
     currentError: 'Заполните поле',
   },
-  render: () => <AddItemForm addItem={() => {}} />,
+  // render: () => <AddItemForm addItem={() => {}} />,
 }
 
 export default meta

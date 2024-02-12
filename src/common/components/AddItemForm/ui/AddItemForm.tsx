@@ -6,7 +6,7 @@ import IconButton from '@mui/material/IconButton'
 import { useAddItemForm } from 'common/hooks'
 
 type Props = {
-  addItem: (title: string) => void
+  addItem: (title: string) => Promise<unknown>
   disabled?: boolean
   placeholder?: string
   currentError?: string | undefined | null

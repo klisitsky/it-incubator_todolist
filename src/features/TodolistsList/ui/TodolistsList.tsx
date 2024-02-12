@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid'
 import { Todolist } from 'features/TodolistsList/Todolist/ui/Todolist'
 import Container from '@mui/material/Container'
 import { AppRootStateType } from 'features/App/store'
-import { TodolistDomainType, todolistsThunks } from 'features/TodolistsList/Todolist/model/todolistsReducer'
+import { TodolistDomainType, todolistsThunks } from 'features/TodolistsList/Todolist/model/todolistsSlice'
 import { todolistsSelector } from 'common/selectors/selectors'
 import { Navigate } from 'react-router-dom'
 import { AddItemForm } from 'common/components'
@@ -22,7 +22,7 @@ export const TodolistsList = () => {
   }, [])
 
   const addTodolistCallback = (newTitle: string) => {
-    createTodolist(newTitle)
+    return createTodolist(newTitle).unwrap()
   }
 
   if (!isLoggedIn) {

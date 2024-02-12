@@ -1,7 +1,7 @@
 import { v1 } from 'uuid'
-import { AllTasks, tasksReducer, tasksThunks } from 'features/TodolistsList/Todolist/Task/model/tasksReducer'
+import { AllTasks, tasksSlice, tasksThunks } from 'features/TodolistsList/Todolist/Task/model/tasksSlice'
 import { TaskStatuses } from 'features/TodolistsList/Todolist/Task/api/tasksApi'
-import { todolistsThunks } from 'features/TodolistsList/Todolist/model/todolistsReducer'
+import { todolistsThunks } from 'features/TodolistsList/Todolist/model/todolistsSlice'
 import { TaskPriorities } from 'common/enums'
 
 let todolistId1: string
@@ -139,7 +139,7 @@ test('new task should be added', () => {
     loadingStatus: 'idle',
   }
 
-  const endState = tasksReducer(
+  const endState = tasksSlice(
     startState,
     tasksThunks.createTask.fulfilled({ task }, 'requestId', {
       todolistId: todolistId1,
@@ -154,7 +154,7 @@ test('new task should be added', () => {
 
 test('the task should be removed', () => {
   const payLoad = { todolistId: todolistId1, taskId: startState[todolistId1][0].id }
-  const endState = tasksReducer(startState, tasksThunks.deleteTask.fulfilled(payLoad, 'requestId', payLoad))
+  const endState = tasksSlice(startState, tasksThunks.deleteTask.fulfilled(payLoad, 'requestId', payLoad))
 
   expect(startState[todolistId1].length).toBe(4)
   expect(endState[todolistId1].length).toBe(3)
@@ -168,7 +168,7 @@ test('the task status should be changed', () => {
     taskModel: { status: TaskStatuses.New },
   }
 
-  const endState = tasksReducer(startState, tasksThunks.updateTask.fulfilled(payLoad, 'requestId', payLoad))
+  const endState = tasksSlice(startState, tasksThunks.updateTask.fulfilled(payLoad, 'requestId', payLoad))
 
   expect(startState[todolistId1].length).toBe(4)
   expect(endState[todolistId1].length).toBe(4)
@@ -183,7 +183,7 @@ test('the task title should be changed', () => {
     taskModel: { title: 'bla-bla' },
   }
 
-  const endState = tasksReducer(startState, tasksThunks.updateTask.fulfilled(payLoad, 'requestId', payLoad))
+  const endState = tasksSlice(startState, tasksThunks.updateTask.fulfilled(payLoad, 'requestId', payLoad))
 
   expect(endState[todolistId1].length).toBe(4)
   expect(startState[todolistId1][0].title).toBe('HTML&CSS')
@@ -192,7 +192,7 @@ test('the task title should be changed', () => {
 })
 
 test('the property with tasks should be removed', () => {
-  const endState = tasksReducer(
+  const endState = tasksSlice(
     startState,
     todolistsThunks.deleteTodolist.fulfilled({ todolistId: todolistId1 }, 'requestId', todolistId1),
   )

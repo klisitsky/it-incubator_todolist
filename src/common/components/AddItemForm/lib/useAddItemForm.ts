@@ -1,6 +1,9 @@
 import { ChangeEvent, KeyboardEvent, useCallback, useState } from 'react'
 
-export const useAddItemForm = (onItemAdded: (title: string) => void, errorDefault: string | undefined | null) => {
+export const useAddItemForm = (
+  onItemAdded: (title: string) => Promise<unknown>,
+  errorDefault: string | undefined | null,
+) => {
   let [title, setTitle] = useState<string>('')
   let [newError, setNewError] = useState<string | undefined | null>(errorDefault)
 
@@ -13,11 +16,14 @@ export const useAddItemForm = (onItemAdded: (title: string) => void, errorDefaul
     title = title.trim()
     if (title) {
       onItemAdded(title)
-      setNewError(null)
-    } else {
-      setNewError('Заполните поле')
+        .then(() => {
+          setNewError(null)
+          setTitle('')
+        })
+        .catch((err) => {
+          setNewError(err?.messages[0])
+        })
     }
-    setTitle('')
   }, [onItemAdded, title, newError])
 
   const onKeyUpInputHandler = (event: KeyboardEvent<HTMLInputElement>) => {

@@ -68,7 +68,8 @@ export const Login = () => {
             <Button
               type={'submit'}
               variant={'contained'}
-              color={'primary'}>
+              color={'primary'}
+              disabled={!!formik.errors.password || !!formik.errors.email}>
               Login
             </Button>
           </FormGroup>

@@ -5,9 +5,9 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import CircularProgress from '@mui/material/CircularProgress'
 import { AppSnackbar, ButtonAppBar } from 'common/components'
 import { Login, TodolistsList } from 'features/index'
-import { RequestStatus } from 'features/App/model/appReducer'
+import { RequestStatus } from 'features/App/model/appSlice'
 import { useAppSelector } from 'common/hooks'
-import { authThunks } from 'features/auth/model/authReducer'
+import { authThunks } from 'features/auth/model/authSlice'
 import { useActions } from 'common/hooks/useActions'
 
 export const App = React.memo(() => {

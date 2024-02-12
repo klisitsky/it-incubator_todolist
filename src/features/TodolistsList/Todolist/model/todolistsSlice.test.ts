@@ -3,9 +3,9 @@ import {
   FilterType,
   todolistsActions,
   TodolistsInitialStateType,
-  todolistsReducer,
+  todolistsSlice,
   todolistsThunks,
-} from 'features/TodolistsList/Todolist/model/todolistsReducer'
+} from 'features/TodolistsList/Todolist/model/todolistsSlice'
 
 let startState: TodolistsInitialStateType
 let todolistId1: string
@@ -23,7 +23,7 @@ beforeEach(() => {
 })
 
 test('correct todolist should be removed', () => {
-  const endState = todolistsReducer(
+  const endState = todolistsSlice(
     startState,
     todolistsThunks.deleteTodolist.fulfilled({ todolistId: todolistId1 }, 'requestId', todolistId1),
   )
@@ -35,7 +35,7 @@ test('correct todolist should be removed', () => {
 test('todolist title should be edited', () => {
   const newTodolistTitle = 'hey hey'
   const payload = { todolistId: todolistId1, title: newTodolistTitle }
-  const endState = todolistsReducer(
+  const endState = todolistsSlice(
     startState,
     todolistsThunks.updateTodolistTitle.fulfilled(payload, 'requestId', payload),
   )
@@ -46,7 +46,7 @@ test('todolist title should be edited', () => {
 
 test('todolist title should be edited', () => {
   const newTodolistFilter: FilterType = 'active'
-  const endState = todolistsReducer(
+  const endState = todolistsSlice(
     startState,
     todolistsActions.changeTodolistFilter({ todolistId: todolistId1, filter: newTodolistFilter }),
   )

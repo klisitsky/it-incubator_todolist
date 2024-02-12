@@ -2,10 +2,10 @@ import React, { useEffect } from 'react'
 import { Task } from 'features/TodolistsList/Todolist/Task/ui/Task'
 import { useSelector } from 'react-redux'
 import { AppRootStateType } from 'features/App/store'
-import { TaskDomain, tasksThunks } from 'features/TodolistsList/Todolist/Task/model/tasksReducer'
+import { TaskDomain, tasksThunks } from 'features/TodolistsList/Todolist/Task/model/tasksSlice'
 import { TaskStatuses } from 'features/TodolistsList/Todolist/Task/api/tasksApi'
 import { tasksSelector } from 'common/selectors/selectors'
-import { TodolistDomainType } from 'features/TodolistsList/Todolist/model/todolistsReducer'
+import { TodolistDomainType } from 'features/TodolistsList/Todolist/model/todolistsSlice'
 import { useActions } from 'common/hooks/useActions'
 
 type Props = {

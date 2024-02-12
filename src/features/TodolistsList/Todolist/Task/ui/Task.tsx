@@ -5,7 +5,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import Checkbox from '@mui/material/Checkbox'
 import { useTask } from 'features/TodolistsList/Todolist/Task/lib/useTask'
 import { TaskStatuses } from 'features/TodolistsList/Todolist/Task/api/tasksApi'
-import { TaskDomain } from 'features/TodolistsList/Todolist/Task/model/tasksReducer'
+import { TaskDomain } from 'features/TodolistsList/Todolist/Task/model/tasksSlice'
 import { EditableSpan } from 'common/components'
 
 type Props = {

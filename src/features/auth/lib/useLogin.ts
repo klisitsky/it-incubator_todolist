@@ -1,6 +1,6 @@
 import { useAppSelector } from 'common/hooks'
 import { useFormik } from 'formik'
-import { authThunks } from 'features/auth/model/authReducer'
+import { authThunks } from 'features/auth/model/authSlice'
 import { BaseResponse } from 'common/types'
 import { FormikErrorType } from 'features/auth/ui/Login'
 import { useActions } from 'common/hooks/useActions'
