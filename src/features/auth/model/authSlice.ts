@@ -1,7 +1,7 @@
 import { createSlice, isFulfilled } from '@reduxjs/toolkit'
 import { todolistsActions } from 'features/TodolistsList/Todolist/model/todolistsSlice'
-import { authAPI, LoginParamsType } from 'features/auth/api/authApi'
-import { RequestResultsType } from 'common/enums'
+import { authAPI, LoginParams } from 'features/auth/api/authApi'
+import { RequestResults } from 'common/enums'
 import { createAppAsyncThunk } from 'common/utils'
 
 const slice = createSlice({
@@ -19,11 +19,11 @@ const slice = createSlice({
 
 // thunks
 
-const login = createAppAsyncThunk<{ isLoggedIn: boolean }, LoginParamsType>(
+const login = createAppAsyncThunk<{ isLoggedIn: boolean }, LoginParams>(
   'auth/login',
   async (arg, { rejectWithValue }) => {
     const res = await authAPI.login(arg)
-    if (res.data.resultCode === RequestResultsType.OK) {
+    if (res.data.resultCode === RequestResults.OK) {
       return { isLoggedIn: true }
     } else {
       return rejectWithValue(res.data)
@@ -35,7 +35,7 @@ const logout = createAppAsyncThunk<{ isLoggedIn: boolean }, undefined>(
   'auth/logout',
   async (_, { dispatch, rejectWithValue }) => {
     const res = await authAPI.logOut()
-    if (res.data.resultCode === RequestResultsType.OK) {
+    if (res.data.resultCode === RequestResults.OK) {
       dispatch(todolistsActions.clearData())
       return { isLoggedIn: false }
     } else {

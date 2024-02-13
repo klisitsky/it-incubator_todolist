@@ -11,7 +11,7 @@ export type Props = {
 }
 
 export const EditableSpan = React.memo((props: Props) => {
-  const { edit, EditOnHandler, EditOffHandler, newTitle, onChangeHandler, onKeyUpInputHandler } = useEditableSpan(
+  const { edit, EditOnHandler, editOffHandler, newTitle, setTitleHandler, keyUpInputHandler } = useEditableSpan(
     props.oldTitle,
     props.callback,
     props.edit,
@@ -25,10 +25,10 @@ export const EditableSpan = React.memo((props: Props) => {
     </span>
   ) : (
     <TextField
-      onBlur={EditOffHandler}
+      onBlur={editOffHandler}
       value={newTitle}
-      onChange={onChangeHandler}
-      onKeyUp={onKeyUpInputHandler}
+      onChange={setTitleHandler}
+      onKeyUp={keyUpInputHandler}
       autoFocus
       size={'small'}
       disabled={props.disabled}

@@ -2,8 +2,8 @@ import React, { useEffect } from 'react'
 import Grid from '@mui/material/Grid'
 import { Todolist } from 'features/TodolistsList/Todolist/ui/Todolist'
 import Container from '@mui/material/Container'
-import { AppRootStateType } from 'features/App/store'
-import { TodolistDomainType, todolistsThunks } from 'features/TodolistsList/Todolist/model/todolistsSlice'
+import { AppRootState } from 'features/App/store'
+import { TodolistDomain, todolistsThunks } from 'features/TodolistsList/Todolist/model/todolistsSlice'
 import { todolistsSelector } from 'common/selectors/selectors'
 import { Navigate } from 'react-router-dom'
 import { AddItemForm } from 'common/components'
@@ -13,7 +13,7 @@ import { useActions } from 'common/hooks/useActions'
 
 export const TodolistsList = () => {
   const { fetchTodolists, createTodolist } = useActions(todolistsThunks)
-  const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(todolistsSelector)
+  const todolists = useSelector<AppRootState, Array<TodolistDomain>>(todolistsSelector)
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
 
   useEffect(() => {

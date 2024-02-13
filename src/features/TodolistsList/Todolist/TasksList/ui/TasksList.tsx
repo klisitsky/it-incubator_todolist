@@ -1,21 +1,21 @@
 import React, { useEffect } from 'react'
 import { Task } from 'features/TodolistsList/Todolist/Task/ui/Task'
 import { useSelector } from 'react-redux'
-import { AppRootStateType } from 'features/App/store'
+import { AppRootState } from 'features/App/store'
 import { TaskDomain, tasksThunks } from 'features/TodolistsList/Todolist/Task/model/tasksSlice'
 import { TaskStatuses } from 'features/TodolistsList/Todolist/Task/api/tasksApi'
 import { tasksSelector } from 'common/selectors/selectors'
-import { TodolistDomainType } from 'features/TodolistsList/Todolist/model/todolistsSlice'
+import { TodolistDomain } from 'features/TodolistsList/Todolist/model/todolistsSlice'
 import { useActions } from 'common/hooks/useActions'
 
 type Props = {
-  todolist: TodolistDomainType
+  todolist: TodolistDomain
 }
 
 export const TasksList = ({ todolist }: Props) => {
   const { fetchTasks } = useActions(tasksThunks)
   const selectedTasksByTodolistId = tasksSelector(todolist.id)
-  const tasks = useSelector<AppRootStateType, Array<TaskDomain>>(selectedTasksByTodolistId)
+  const tasks = useSelector<AppRootState, Array<TaskDomain>>(selectedTasksByTodolistId)
   let filteredTasks = tasks
 
   useEffect(() => {

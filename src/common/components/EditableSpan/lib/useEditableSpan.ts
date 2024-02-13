@@ -8,7 +8,7 @@ export const useEditableSpan = (
   const [edit, setEdit] = useState<boolean | undefined>(editValue)
   const [newTitle, setNewTitle] = useState<string>(oldTitle)
 
-  const EditOffHandler = useCallback(() => {
+  const editOffHandler = useCallback(() => {
     setEdit(false)
     onNewTitleSetted(newTitle)
   }, [onNewTitleSetted, newTitle])
@@ -17,20 +17,20 @@ export const useEditableSpan = (
     setEdit(true)
   }
 
-  const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+  const setTitleHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setNewTitle(event.currentTarget.value)
   }
 
-  const onKeyUpInputHandler = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') EditOffHandler()
+  const keyUpInputHandler = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') editOffHandler()
   }
   return {
     edit,
     EditOnHandler,
-    EditOffHandler,
+    editOffHandler,
     oldTitle,
     newTitle,
-    onChangeHandler,
-    onKeyUpInputHandler,
+    setTitleHandler,
+    keyUpInputHandler,
   }
 }

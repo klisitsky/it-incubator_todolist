@@ -4,19 +4,19 @@ import { BaseResponse } from 'common/types/appTypes'
 
 export const TodolistApi = {
   getTodolists() {
-    return instanse.get<TodolistType[], AxiosResponse<TodolistType[]>>('todo-lists')
+    return instanse.get<Todolist[], AxiosResponse<Todolist[]>>('todo-lists')
   },
   updateTodolist(payload: updateTaskPayload) {
     return instanse.put<
-      BaseResponse<{ item: TodolistType }>,
-      AxiosResponse<BaseResponse<{ item: TodolistType }>>,
+      BaseResponse<{ item: Todolist }>,
+      AxiosResponse<BaseResponse<{ item: Todolist }>>,
       { title: string }
     >(`todo-lists/${payload.todolistId}`, { title: payload.title })
   },
   createTodolist(title: string) {
     return instanse.post<
-      BaseResponse<{ item: TodolistType }>,
-      AxiosResponse<BaseResponse<{ item: TodolistType }>>,
+      BaseResponse<{ item: Todolist }>,
+      AxiosResponse<BaseResponse<{ item: Todolist }>>,
       { title: string }
     >('todo-lists', { title })
   },
@@ -26,13 +26,13 @@ export const TodolistApi = {
 }
 
 // types
-export type UserType = {
+export type User = {
   id: number
   email: string
   login: string
 }
 
-export type TodolistType = {
+export type Todolist = {
   id: string
   title: string
   addedDate: string

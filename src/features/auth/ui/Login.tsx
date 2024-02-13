@@ -7,10 +7,10 @@ import FormLabel from '@mui/material/FormLabel'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import { Navigate } from 'react-router-dom'
-import { LoginParamsType } from 'features/auth/api/authApi'
+import { LoginParams } from 'features/auth/api/authApi'
 import { useLogin } from '../lib/useLogin'
 
-export type FormikErrorType = Partial<Omit<LoginParamsType, 'captcha'>>
+export type FormikError = Partial<Omit<LoginParams, 'captcha'>>
 
 export const Login = () => {
   const { isLoggedIn, formik } = useLogin()

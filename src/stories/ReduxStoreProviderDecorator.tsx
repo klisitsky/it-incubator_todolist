@@ -7,7 +7,7 @@ import { tasksSlice } from 'features/TodolistsList/Todolist/Task/model/tasksSlic
 import { TaskStatuses } from 'features/TodolistsList/Todolist/Task/api/tasksApi'
 import { appSlice } from 'features/App/model/appSlice'
 import { authSlice } from 'features/auth/model/authSlice'
-import { AppRootStateType } from 'features/App/store'
+import { AppRootState } from 'features/App/store'
 import { TaskPriorities } from 'common/enums'
 
 const rootReducer = combineReducers({
@@ -20,7 +20,7 @@ export const todolistId1 = v1()
 export const todolistId2 = v1()
 export const todolistId3 = v1()
 
-export const initialState: AppRootStateType = {
+export const initialState: AppRootState = {
   todolists: {
     todolists: [
       { id: todolistId1, title: 'What to learn', filter: 'all', loadingStatus: 'idle', addedDate: '', order: 1 },

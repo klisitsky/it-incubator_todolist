@@ -1,6 +1,6 @@
 import { v1 } from 'uuid'
 import {
-  FilterType,
+  Filter,
   todolistsActions,
   TodolistsInitialStateType,
   todolistsSlice,
@@ -45,7 +45,7 @@ test('todolist title should be edited', () => {
 })
 
 test('todolist title should be edited', () => {
-  const newTodolistFilter: FilterType = 'active'
+  const newTodolistFilter: Filter = 'active'
   const endState = todolistsSlice(
     startState,
     todolistsActions.changeTodolistFilter({ todolistId: todolistId1, filter: newTodolistFilter }),

@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import s from 'features/TodolistsList/Todolist/ui/Todolist.module.css'
 import Paper from '@mui/material/Paper'
 import Grid from '@mui/material/Grid'
-import { TodolistDomainType } from 'features/TodolistsList/Todolist/model/todolistsSlice'
+import { TodolistDomain } from 'features/TodolistsList/Todolist/model/todolistsSlice'
 import { AddItemForm } from 'common/components'
 import TasksFilterButtons from 'features/TodolistsList/Todolist/TasksFilterButtons/ui/TasksFilterButtons'
 import TodolistTitle from 'features/TodolistsList/Todolist/todolistTitle/todolistTitle'
@@ -11,7 +11,7 @@ import { tasksThunks } from 'features/TodolistsList/Todolist/Task/model/tasksSli
 import { useActions } from 'common/hooks/useActions'
 
 type Props = {
-  todolist: TodolistDomainType
+  todolist: TodolistDomain
 }
 
 export const Todolist = React.memo(({ todolist }: Props) => {

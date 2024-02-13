@@ -7,12 +7,12 @@ export const useAddItemForm = (
   let [title, setTitle] = useState<string>('')
   let [newError, setNewError] = useState<string | undefined | null>(errorDefault)
 
-  const onChangeInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
+  const changeInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
     if (!newError) setNewError(null)
     setTitle(event.currentTarget.value)
   }
 
-  const onClickBtnAddHandler = useCallback(() => {
+  const addItemHandler = useCallback(() => {
     title = title.trim()
     if (title) {
       onItemAdded(title)
@@ -26,17 +26,17 @@ export const useAddItemForm = (
     }
   }, [onItemAdded, title, newError])
 
-  const onKeyUpInputHandler = (event: KeyboardEvent<HTMLInputElement>) => {
+  const keyUpInputHandler = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      onClickBtnAddHandler()
+      addItemHandler()
     }
   }
 
   return {
     title,
     newError,
-    onChangeInputHandler,
-    onKeyUpInputHandler,
-    onClickBtnAddHandler,
+    changeInputHandler,
+    keyUpInputHandler,
+    addItemHandler,
   }
 }

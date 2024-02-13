@@ -13,7 +13,7 @@ type Props = {
 }
 
 export const AddItemForm = React.memo(({ addItem, currentError, disabled, placeholder }: Props) => {
-  const { title, newError, onChangeInputHandler, onKeyUpInputHandler, onClickBtnAddHandler } = useAddItemForm(
+  const { title, newError, changeInputHandler, keyUpInputHandler, addItemHandler } = useAddItemForm(
     addItem,
     currentError,
   )
@@ -22,8 +22,8 @@ export const AddItemForm = React.memo(({ addItem, currentError, disabled, placeh
     <div className={s.taskItemContainer}>
       <TextField
         value={title}
-        onChange={onChangeInputHandler}
-        onKeyUp={onKeyUpInputHandler}
+        onChange={changeInputHandler}
+        onKeyUp={keyUpInputHandler}
         label={placeholder}
         error={!!newError}
         helperText={newError}
@@ -32,7 +32,7 @@ export const AddItemForm = React.memo(({ addItem, currentError, disabled, placeh
         disabled={disabled}
       />
       <IconButton
-        onClick={onClickBtnAddHandler}
+        onClick={addItemHandler}
         disabled={disabled}>
         <AddBoxIcon
           style={{ cursor: 'pointer' }}

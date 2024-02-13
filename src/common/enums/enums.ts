@@ -1,4 +1,4 @@
-export enum RequestResultsType {
+export enum RequestResults {
   OK = 0,
   ERROR = 1,
   CAPTCHA = 2,

@@ -2,11 +2,11 @@ import React, { useCallback } from 'react'
 import { EditableSpan } from 'common/components'
 import IconButton from '@mui/material/IconButton'
 import DeleteIcon from '@mui/icons-material/Delete'
-import { TodolistDomainType, todolistsThunks } from 'features/TodolistsList/Todolist/model/todolistsSlice'
+import { TodolistDomain, todolistsThunks } from 'features/TodolistsList/Todolist/model/todolistsSlice'
 import { useActions } from 'common/hooks/useActions'
 
 type Props = {
-  todolist: TodolistDomainType
+  todolist: TodolistDomain
   isLoading: boolean
 }
 const TodolistTitle = ({ todolist, isLoading }: Props) => {
@@ -19,7 +19,7 @@ const TodolistTitle = ({ todolist, isLoading }: Props) => {
     [todolist.id],
   )
 
-  const onDeleteTodolistClickHandler = useCallback(() => {
+  const deleteTodolistClickHandler = useCallback(() => {
     deleteTodolist(todolist.id)
   }, [todolist.id])
 
@@ -31,7 +31,7 @@ const TodolistTitle = ({ todolist, isLoading }: Props) => {
         disabled={isLoading}
       />
       <IconButton
-        onClick={onDeleteTodolistClickHandler}
+        onClick={deleteTodolistClickHandler}
         disabled={isLoading}>
         <DeleteIcon
           style={{ cursor: 'pointer' }}

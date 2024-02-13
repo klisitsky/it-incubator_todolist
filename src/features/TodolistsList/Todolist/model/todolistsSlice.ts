@@ -1,16 +1,16 @@
-import { TodolistApi, TodolistType, updateTaskPayload } from 'features/TodolistsList/Todolist/api/todolistApi'
+import { TodolistApi, Todolist, updateTaskPayload } from 'features/TodolistsList/Todolist/api/todolistApi'
 import { RequestStatus } from 'features/App/model/appSlice'
 import { createSlice, isFulfilled, isPending, isRejected, PayloadAction } from '@reduxjs/toolkit'
-import { RequestResultsType } from 'common/enums'
+import { RequestResults } from 'common/enums'
 import { createAppAsyncThunk } from 'common/utils'
 
 const slice = createSlice({
   name: 'todolists',
   initialState: {
-    todolists: [] as TodolistDomainType[],
+    todolists: [] as TodolistDomain[],
   },
   reducers: {
-    changeTodolistFilter: (state, action: PayloadAction<{ todolistId: string; filter: FilterType }>) => {
+    changeTodolistFilter: (state, action: PayloadAction<{ todolistId: string; filter: Filter }>) => {
       const index = state.todolists.findIndex((todo) => todo.id === action.payload.todolistId)
       if (index !== -1) {
         state.todolists[index].filter = action.payload.filter
@@ -35,7 +35,7 @@ const slice = createSlice({
         state.todolists = action.payload.todolists.map((todo) => ({ ...todo, filter: 'all', loadingStatus: 'idle' }))
       })
       .addCase(createTodolist.fulfilled, (state, action) => {
-        const newTotolist: TodolistDomainType = { ...action.payload.todolist, filter: 'all', loadingStatus: 'idle' }
+        const newTotolist: TodolistDomain = { ...action.payload.todolist, filter: 'all', loadingStatus: 'idle' }
         state.todolists.unshift(newTotolist)
       })
       .addCase(deleteTodolist.fulfilled, (state, action) => {
@@ -72,7 +72,7 @@ const slice = createSlice({
   },
 })
 
-const fetchTodolists = createAppAsyncThunk<{ todolists: TodolistType[] }, undefined>(
+const fetchTodolists = createAppAsyncThunk<{ todolists: Todolist[] }, undefined>(
   'todolists/fetchTodolists',
   async () => {
     const resTodos = await TodolistApi.getTodolists()
@@ -80,11 +80,11 @@ const fetchTodolists = createAppAsyncThunk<{ todolists: TodolistType[] }, undefi
   },
 )
 
-const createTodolist = createAppAsyncThunk<{ todolist: TodolistType }, string>(
+const createTodolist = createAppAsyncThunk<{ todolist: Todolist }, string>(
   'todolists/createTodolist',
   async (arg, { rejectWithValue }) => {
     const res = await TodolistApi.createTodolist(arg)
-    if (res.data.resultCode === RequestResultsType.OK) {
+    if (res.data.resultCode === RequestResults.OK) {
       return { todolist: res.data.data.item }
     } else {
       return rejectWithValue(res.data)
@@ -96,7 +96,7 @@ const deleteTodolist = createAppAsyncThunk<{ todolistId: string }, string>(
   'todolists/deleteTodolist',
   async (arg, { rejectWithValue }) => {
     const res = await TodolistApi.deleteTodolist(arg)
-    if (res.data.resultCode === RequestResultsType.OK) {
+    if (res.data.resultCode === RequestResults.OK) {
       return { todolistId: arg }
     } else {
       return rejectWithValue(res.data)
@@ -121,9 +121,9 @@ export const todolistsActions = slice.actions
 
 export const todolistsThunks = { fetchTodolists, createTodolist, deleteTodolist, updateTodolistTitle }
 
-export type FilterType = 'all' | 'active' | 'completed'
-export type TodolistDomainType = TodolistType & {
-  filter: FilterType
+export type Filter = 'all' | 'active' | 'completed'
+export type TodolistDomain = Todolist & {
+  filter: Filter
   loadingStatus: RequestStatus
 }
 export type TodolistsInitialStateType = ReturnType<typeof slice.getInitialState>

@@ -21,7 +21,7 @@ export const AppSnackbar = () => {
   const error = useAppSelector<null | string>((state) => state.app.error)
   const { setAppError } = useActions(appActions)
 
-  const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+  const closeSnackBar = (event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
       return
     }
@@ -35,9 +35,9 @@ export const AppSnackbar = () => {
       <Snackbar
         open={!!error}
         autoHideDuration={4000}
-        onClose={handleClose}>
+        onClose={closeSnackBar}>
         <Alert
-          onClose={handleClose}
+          onClose={closeSnackBar}
           severity='error'
           sx={{ width: '100%' }}>
           {error}

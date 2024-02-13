@@ -16,5 +16,5 @@ export const store = configureStore({
 //@ts-ignore
 window.store = store
 
-export type AppDispatchType = typeof store.dispatch
-export type AppRootStateType = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch
+export type AppRootState = ReturnType<typeof store.getState>

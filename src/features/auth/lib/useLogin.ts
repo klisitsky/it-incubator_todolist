@@ -2,7 +2,7 @@ import { useAppSelector } from 'common/hooks'
 import { useFormik } from 'formik'
 import { authThunks } from 'features/auth/model/authSlice'
 import { BaseResponse } from 'common/types'
-import { FormikErrorType } from 'features/auth/ui/Login'
+import { FormikError } from 'features/auth/ui/Login'
 import { useActions } from 'common/hooks/useActions'
 
 export const useLogin = () => {
@@ -15,7 +15,7 @@ export const useLogin = () => {
       rememberMe: false,
     },
     validate: (values) => {
-      const errors: FormikErrorType = {}
+      const errors: FormikError = {}
       if (!values.email) {
         errors.email = 'Required'
       }

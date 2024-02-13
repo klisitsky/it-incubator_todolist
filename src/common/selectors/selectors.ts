@@ -1,13 +1,13 @@
-import { TodolistDomainType } from 'features/TodolistsList/Todolist/model/todolistsSlice'
+import { TodolistDomain } from 'features/TodolistsList/Todolist/model/todolistsSlice'
 import { TaskDomain } from 'features/TodolistsList/Todolist/Task/model/tasksSlice'
-import { AppRootStateType } from 'features/App/store'
+import { AppRootState } from 'features/App/store'
 
-export const todolistsSelector = (state: AppRootStateType): Array<TodolistDomainType> => {
+export const todolistsSelector = (state: AppRootState): Array<TodolistDomain> => {
   return state.todolists.todolists
 }
 
-type tasksSelectorType = (state: AppRootStateType) => Array<TaskDomain>
+type tasksSelector = (state: AppRootState) => Array<TaskDomain>
 
-export const tasksSelector = (todolistId: string): tasksSelectorType => {
-  return (state: AppRootStateType) => state.tasks[todolistId]
+export const tasksSelector = (todolistId: string): tasksSelector => {
+  return (state: AppRootState) => state.tasks[todolistId]
 }
